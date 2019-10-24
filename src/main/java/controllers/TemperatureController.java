@@ -23,7 +23,7 @@ public class TemperatureController extends DbController {
             MongoCollection<Document> coll = collection();
             ArrayList<Object> temperatures = Temperature.toList(coll.find());
             ctx.json(temperatures);
-            ctx.status(200);
+            ctx.status(201);
         }catch (Exception e) {
             System.out.println(e.getMessage());
             ctx.result(Temperature.errorJson);

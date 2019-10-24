@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="pi4j-core">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/resources/pi4j-1.2/lib/pi4j-core.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/src/resources/pi4j-1.2/lib/pi4j-core-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

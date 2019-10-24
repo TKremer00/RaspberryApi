@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_raspberryapi" default="compile.module.raspberryapi">
+  <dirname property="module.raspberryapi.basedir" file="${ant.file.module_raspberryapi}"/>
+  
+  <property name="module.jdk.home.raspberryapi" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.raspberryapi" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.raspberryapi" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.raspberryapi" value="-encoding UTF-8 -source 8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="raspberryapi.output.dir" value="${module.raspberryapi.basedir}/../target/classes"/>
+  <property name="raspberryapi.testoutput.dir" value="${module.raspberryapi.basedir}/../target/test-classes"/>
+  
+  <path id="raspberryapi.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="raspberryapi.module.production.classpath">
+    <path refid="${module.jdk.classpath.raspberryapi}"/>
+    <path refid="library.pi4j-core.classpath"/>
+    <path refid="library.maven:_io.javalin:javalin:3.5.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.31.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib:1.3.31.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-common:1.3.31.classpath"/>
+    <path refid="library.maven:_org.jetbrains:annotations:13.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.31.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.26.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-server:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_javax.servlet:javax.servlet-api:3.1.0.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-http:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-util:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-io:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-webapp:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-xml:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-servlet:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-security:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-server:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-common:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-api:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-client:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-client:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-servlet:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-simple:1.7.26.classpath"/>
+    <path refid="library.maven:_org.mongodb:mongodb-driver:3.11.0.classpath"/>
+    <path refid="library.maven:_org.mongodb:bson:3.11.0.classpath"/>
+    <path refid="library.maven:_org.mongodb:mongodb-driver-core:3.11.0.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.10.0.pr1.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.10.0.pr1.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.10.0.pr1.classpath"/>
+    <path refid="library.maven:_com.pi4j:pi4j-core:1.2.classpath"/>
+  </path>
+  
+  <path id="raspberryapi.runtime.production.module.classpath">
+    <pathelement location="${raspberryapi.output.dir}"/>
+    <path refid="library.pi4j-core.classpath"/>
+    <path refid="library.maven:_io.javalin:javalin:3.5.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.31.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib:1.3.31.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-common:1.3.31.classpath"/>
+    <path refid="library.maven:_org.jetbrains:annotations:13.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.31.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.26.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-server:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_javax.servlet:javax.servlet-api:3.1.0.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-http:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-util:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-io:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-webapp:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-xml:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-servlet:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-security:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-server:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-common:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-api:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-client:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-client:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-servlet:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-simple:1.7.26.classpath"/>
+    <path refid="library.maven:_org.mongodb:mongodb-driver:3.11.0.classpath"/>
+    <path refid="library.maven:_org.mongodb:bson:3.11.0.classpath"/>
+    <path refid="library.maven:_org.mongodb:mongodb-driver-core:3.11.0.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.10.0.pr1.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.10.0.pr1.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.10.0.pr1.classpath"/>
+    <path refid="library.maven:_com.pi4j:pi4j-core:1.2.classpath"/>
+  </path>
+  
+  <path id="raspberryapi.module.classpath">
+    <path refid="${module.jdk.classpath.raspberryapi}"/>
+    <pathelement location="${raspberryapi.output.dir}"/>
+    <path refid="library.pi4j-core.classpath"/>
+    <path refid="library.maven:_io.javalin:javalin:3.5.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.31.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib:1.3.31.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-common:1.3.31.classpath"/>
+    <path refid="library.maven:_org.jetbrains:annotations:13.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.31.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.26.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-server:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_javax.servlet:javax.servlet-api:3.1.0.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-http:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-util:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-io:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-webapp:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-xml:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-servlet:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-security:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-server:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-common:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-api:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-client:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-client:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-servlet:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-simple:1.7.26.classpath"/>
+    <path refid="library.maven:_org.mongodb:mongodb-driver:3.11.0.classpath"/>
+    <path refid="library.maven:_org.mongodb:bson:3.11.0.classpath"/>
+    <path refid="library.maven:_org.mongodb:mongodb-driver-core:3.11.0.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.10.0.pr1.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.10.0.pr1.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.10.0.pr1.classpath"/>
+    <path refid="library.maven:_com.pi4j:pi4j-core:1.2.classpath"/>
+  </path>
+  
+  <path id="raspberryapi.runtime.module.classpath">
+    <pathelement location="${raspberryapi.testoutput.dir}"/>
+    <pathelement location="${raspberryapi.output.dir}"/>
+    <path refid="library.pi4j-core.classpath"/>
+    <path refid="library.maven:_io.javalin:javalin:3.5.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.31.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib:1.3.31.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-common:1.3.31.classpath"/>
+    <path refid="library.maven:_org.jetbrains:annotations:13.0.classpath"/>
+    <path refid="library.maven:_org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.31.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.26.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-server:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_javax.servlet:javax.servlet-api:3.1.0.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-http:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-util:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-io:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-webapp:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-xml:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-servlet:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-security:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-server:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-common:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-api:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-client:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty:jetty-client:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.eclipse.jetty.websocket:websocket-servlet:9.4.20.v20190813.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-simple:1.7.26.classpath"/>
+    <path refid="library.maven:_org.mongodb:mongodb-driver:3.11.0.classpath"/>
+    <path refid="library.maven:_org.mongodb:bson:3.11.0.classpath"/>
+    <path refid="library.maven:_org.mongodb:mongodb-driver-core:3.11.0.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-databind:2.10.0.pr1.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-annotations:2.10.0.pr1.classpath"/>
+    <path refid="library.maven:_com.fasterxml.jackson.core:jackson-core:2.10.0.pr1.classpath"/>
+    <path refid="library.maven:_com.pi4j:pi4j-core:1.2.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.raspberryapi">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.raspberryapi">
+    <patternset refid="excluded.from.module.raspberryapi"/>
+  </patternset>
+  
+  <path id="raspberryapi.module.sourcepath">
+    <dirset dir="${module.raspberryapi.basedir}/../../RaspberryApi">
+      <include name="src/main/java"/>
+      <include name="src/resources"/>
+    </dirset>
+  </path>
+  
+  <path id="raspberryapi.module.test.sourcepath">
+    <dirset dir="${module.raspberryapi.basedir}/../../RaspberryApi">
+      <include name="src/test/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.raspberryapi" depends="compile.module.raspberryapi.production,compile.module.raspberryapi.tests" description="Compile module RaspberryApi"/>
+  
+  <target name="compile.module.raspberryapi.production" depends="register.custom.compilers" description="Compile module RaspberryApi; production classes">
+    <mkdir dir="${raspberryapi.output.dir}"/>
+    <javac2 destdir="${raspberryapi.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.raspberryapi}/javac">
+      <compilerarg line="${compiler.args.raspberryapi}"/>
+      <bootclasspath refid="raspberryapi.module.bootclasspath"/>
+      <classpath refid="raspberryapi.module.production.classpath"/>
+      <src refid="raspberryapi.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.raspberryapi"/>
+    </javac2>
+    
+    <copy todir="${raspberryapi.output.dir}">
+      <fileset dir="${module.raspberryapi.basedir}/../src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.raspberryapi.basedir}/../src/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.raspberryapi.tests" depends="register.custom.compilers,compile.module.raspberryapi.production" description="compile module RaspberryApi; test classes" unless="skip.tests">
+    <mkdir dir="${raspberryapi.testoutput.dir}"/>
+    <javac2 destdir="${raspberryapi.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.raspberryapi}/javac">
+      <compilerarg line="${compiler.args.raspberryapi}"/>
+      <bootclasspath refid="raspberryapi.module.bootclasspath"/>
+      <classpath refid="raspberryapi.module.classpath"/>
+      <src refid="raspberryapi.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.raspberryapi"/>
+    </javac2>
+    
+    <copy todir="${raspberryapi.testoutput.dir}">
+      <fileset dir="${module.raspberryapi.basedir}/../src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.raspberryapi" description="cleanup module">
+    <delete dir="${raspberryapi.output.dir}"/>
+    <delete dir="${raspberryapi.testoutput.dir}"/>
+  </target>
+</project>

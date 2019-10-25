@@ -18,7 +18,7 @@ public class JsonMessage {
         StringBuilder sb = new StringBuilder();
         sb.append("[{");
         for (Map.Entry<String, String> entry : message.entrySet()) {
-            sb.append("\"").append(entry.getKey()).append("  \" : \"").append(entry.getValue()).append(" \"");
+            sb.append("\"").append(entry.getKey()).append("\" : \"").append(entry.getValue()).append("\"");
         }
         sb.append("}]");
 

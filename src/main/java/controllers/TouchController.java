@@ -15,7 +15,6 @@ import static com.mongodb.client.model.Filters.eq;
 public class TouchController extends DbController {
 
     private static String tableName = "touch";
-    static Boolean canLedOn = false;
 
     public TouchController() {
         super.table = "touch";
@@ -77,7 +76,6 @@ public class TouchController extends DbController {
                     Document doc = touch.toBson();
                     MongoCollection<Document> coll = new DBConfig().collection(tableName);
                     coll.insertOne(doc);
-                    canLedOn = true;
                 }
             }
         );

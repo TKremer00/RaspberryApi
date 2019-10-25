@@ -11,18 +11,10 @@ import models.Led;
 public class LedController {
 
     private final static GpioController gpio = GpioFactory.getInstance();
-    private GpioPinDigitalOutput led;
+    private GpioPinDigitalOutput led = gpio.provisionDigitalOutputPin(Led.getPin(), "led", PinState.LOW);;
 
     public void get(Context ctx) {
-        if(led == null) {
-            led = gpio.provisionDigitalOutputPin(Led.getPin(), "led", PinState.LOW);
-        }
-
-        if(TouchController.canLedOn) {
-            led.toggle();
-        }
-
-
+        led.toggle();
         ctx.result( new JsonMessageHandler(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString() );
     }
 }

@@ -15,7 +15,7 @@ public class Api {
             System.out.println("\n\n========== \nStarting API \n==========\n\n");
         }
 
-        //Javalin app = Javalin.create().start(7000);
-        //RouteHandler.Routes(app);
+        Javalin app = Javalin.create().start(7000);
+        RouteHandler.Routes(app);
     }
 }

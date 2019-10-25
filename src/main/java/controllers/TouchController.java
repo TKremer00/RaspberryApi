@@ -10,12 +10,27 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import sensor.TouchSensor;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 import static com.mongodb.client.model.Filters.eq;
 
 public class TouchController extends DbController {
 
     private static String tableName = "touch";
+    public static Boolean canLedOn = false;
+    private static TimerTask timerTask = new TimerTask() {
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("set canled to false");
+            canLedOn = false;
+        }
+    };
+
 
     public TouchController() {
         super.table = "touch";
@@ -77,6 +92,8 @@ public class TouchController extends DbController {
                     Document doc = touch.toBson();
                     MongoCollection<Document> coll = new DBConfig().collection(tableName);
                     coll.insertOne(doc);
+                    canLedOn = true;
+                    timerTask.scheduledExecutionTime();
                 }
             }
         );

@@ -17,7 +17,11 @@ public class LedController {
         if(led == null) {
             led = gpio.provisionDigitalOutputPin(Led.getPin(), "led", PinState.LOW);
         }
-        led.toggle();
+
+        if(TouchController.canLedOn) {
+            led.toggle();
+        }
+
 
         ctx.result( new JsonMessageHandler(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString() );
     }

@@ -1,15 +1,17 @@
 package controllers;
 
 import com.mongodb.client.MongoCollection;
-import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import dbClasses.DbController;
 import dbConfig.DBConfig;
 import io.javalin.http.Context;
-import models.Temperature;
 import models.Touch;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import sensor.TouchSensor;
+import java.util.ArrayList;
+
+import static com.mongodb.client.model.Filters.eq;
 
 public class TouchController extends DbController {
 
@@ -21,22 +23,49 @@ public class TouchController extends DbController {
 
     @Override
     public void getAll(Context ctx) {
-
+        try {
+            MongoCollection<Document> coll = collection();
+            ArrayList<Object> touch = Touch.toList(coll.find());
+            ctx.json(touch);
+            ctx.status(201);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            ctx.result(Touch.errorJson);
+            ctx.status(400);
+        }
     }
 
     @Override
     public void post(Context ctx) {
-
+        throw new UnsupportedOperationException("Method not suported");
     }
 
     @Override
     public void getOne(Context ctx) {
-
+        try {
+            MongoCollection<Document> coll = collection();
+            ArrayList<Object> touch = Touch.toList(coll.find( eq("_id", new ObjectId(ctx.pathParam("id"))) ));
+            ctx.json(touch);
+            ctx.status(201);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            ctx.result(Touch.errorJson);
+            ctx.status(400);
+        }
     }
 
     @Override
     public void delete(Context ctx) {
-
+        try {
+            MongoCollection<Document> coll = collection();
+            coll.findOneAndDelete( eq("_id", new ObjectId(ctx.pathParam("id"))) );
+            ctx.result(Touch.succesJson);
+            ctx.status(201);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            ctx.result(Touch.errorJson);
+            ctx.status(400);
+        }
     }
 
     public static void startListening() {
@@ -49,7 +78,6 @@ public class TouchController extends DbController {
                     MongoCollection<Document> coll = new DBConfig().collection(tableName);
                     coll.insertOne(doc);
                 }
-                System.out.println(" --> GPIO PIN STATE CHANGE: " + event.getPin() + " = " + event.getState());
             }
         );
 

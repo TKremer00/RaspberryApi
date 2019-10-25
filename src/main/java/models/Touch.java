@@ -1,10 +1,14 @@
 package models;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mongodb.BasicDBObject;
+import com.mongodb.client.FindIterable;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.RaspiPin;
 import dbClasses.DbObject;
 import org.bson.Document;
+
+import java.util.ArrayList;
 
 public class Touch extends DbObject {
 
@@ -16,5 +20,10 @@ public class Touch extends DbObject {
 
     public static Pin getPin() {
         return PIN;
+    }
+
+    // @override
+    public static ArrayList<Object> toList(FindIterable<Document> documents) throws JsonProcessingException {
+        return DbObject.toList(documents,Touch.class);
     }
 }

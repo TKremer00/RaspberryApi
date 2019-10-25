@@ -2,6 +2,7 @@ package handler;
 
 import controllers.LedController;
 import controllers.TemperatureController;
+import controllers.TouchController;
 import io.javalin.Javalin;
 
 public class RouteHandler {
@@ -9,6 +10,7 @@ public class RouteHandler {
     private final String BASE_PREFIX = "api/v1/";
     private TemperatureController tc = new TemperatureController();
     private LedController lc = new LedController();
+    private TouchController touchController = new TouchController();
     private Javalin app;
 
     private RouteHandler(Javalin app) {
@@ -26,6 +28,7 @@ public class RouteHandler {
 
         temperature(BASE_PREFIX + "temperature");
         led(BASE_PREFIX + "led");
+        touch(BASE_PREFIX + "touch");
     }
 
     private void temperature(String prefix) {
@@ -37,5 +40,11 @@ public class RouteHandler {
 
     private void led(String prefix) {
         app.get  (prefix + "/",         ctx -> lc.get  (ctx) );
+    }
+
+    private void touch(String prefix) {
+        app.get   (prefix + "/",         ctx -> touchController.getAll(ctx) );
+        app.get   (prefix + "/:id",      ctx -> touchController.getOne(ctx) );
+        app.delete(prefix + "/:id",      ctx -> touchController.delete(ctx) );
     }
 }

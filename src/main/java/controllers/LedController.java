@@ -19,6 +19,6 @@ public class LedController {
         }
         led.toggle();
 
-        ctx.result(new JsonMessage(new String[][] {{"status", (led.isHigh() ? "high" : "low")}}).toString());
+        ctx.result(new JsonMessage(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString());
     }
 }

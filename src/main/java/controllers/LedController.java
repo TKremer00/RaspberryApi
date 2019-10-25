@@ -14,6 +14,6 @@ public class LedController {
             led = gpio.provisionDigitalOutputPin(Led.getPin(), "led", PinState.LOW);
         }
         led.toggle();
-        ctx.result("Change status led");
+        ctx.result("[{}]");
     }
 }

@@ -1,12 +1,19 @@
 package controllers;
 
+import com.mongodb.client.MongoCollection;
+import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
+import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import dbClasses.DbController;
+import dbConfig.DBConfig;
 import io.javalin.http.Context;
-
-//sudo wget http://bits.netbeans.org/netbeans/8.2/community/zip/netbeans-8.2-201610071157.zip
+import models.Temperature;
+import models.Touch;
+import org.bson.Document;
+import sensor.TouchSensor;
 
 public class TouchController extends DbController {
 
+    private static String tableName = "touch";
 
     public TouchController() {
         super.table = "touch";
@@ -19,7 +26,7 @@ public class TouchController extends DbController {
 
     @Override
     public void post(Context ctx) {
-        throw new UnsupportedOperationException("Method not suported");
+
     }
 
     @Override
@@ -29,6 +36,22 @@ public class TouchController extends DbController {
 
     @Override
     public void delete(Context ctx) {
+
+    }
+
+    public static void startListening() {
+        TouchSensor.getTouchSensor().addListener(
+            (GpioPinListenerDigital) event -> {
+                // Log if high
+                if(event.getState().isHigh()) {
+                    Touch touch = new Touch();
+                    Document doc = touch.toBson();
+                    MongoCollection<Document> coll = new DBConfig().collection(tableName);
+                    coll.insertOne(doc);
+                }
+                System.out.println(" --> GPIO PIN STATE CHANGE: " + event.getPin() + " = " + event.getState());
+            }
+        );
 
     }
 }

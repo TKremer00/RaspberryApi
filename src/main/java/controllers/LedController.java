@@ -4,7 +4,7 @@ import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinState;
-import handler.JsonMessage;
+import handler.JsonMessageHandler;
 import io.javalin.http.Context;
 import models.Led;
 
@@ -19,6 +19,6 @@ public class LedController {
         }
         led.toggle();
 
-        ctx.result(new JsonMessage(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString());
+        ctx.result( new JsonMessageHandler(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString() );
     }
 }

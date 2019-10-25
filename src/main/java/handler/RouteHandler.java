@@ -21,9 +21,8 @@ public class RouteHandler {
     }
 
     private void Routes() {
-        // Base
+        // Default rout
         app.get("/", ctx -> ctx.result("Api version 1"));
-
 
         temperature(BASE_PREFIX + "temperature");
         led(BASE_PREFIX + "led");

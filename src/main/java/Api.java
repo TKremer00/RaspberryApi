@@ -1,3 +1,4 @@
+import controllers.TouchController;
 import handler.RouteHandler;
 import io.javalin.Javalin;
 import java.net.DatagramSocket;
@@ -17,5 +18,6 @@ public class Api {
 
         Javalin app = Javalin.create().start(7000);
         RouteHandler.Routes(app);
+        TouchController.startListening();
     }
 }

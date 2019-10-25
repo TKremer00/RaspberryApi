@@ -37,6 +37,6 @@ public class RouteHandler {
     }
 
     private void led(String prefix) {
-        app.post  (prefix + "/",         ctx -> lc.get  (ctx) );
+        app.get  (prefix + "/",         ctx -> lc.get  (ctx) );
     }
 }

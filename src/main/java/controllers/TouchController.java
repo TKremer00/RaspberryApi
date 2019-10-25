@@ -19,18 +19,11 @@ public class TouchController extends DbController {
 
     private static String tableName = "touch";
     static Boolean canLedOn = false;
-
+    private static Timer timer = new Timer();
 
     private static TimerTask timerTask = new TimerTask() {
         @Override
         public void run() {
-            System.out.println("going canled to false");
-
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             System.out.println("set canled to false");
             canLedOn = false;
         }
@@ -98,8 +91,9 @@ public class TouchController extends DbController {
                     MongoCollection<Document> coll = new DBConfig().collection(tableName);
                     coll.insertOne(doc);
                     canLedOn = true;
-                    Timer timer = new Timer(true);
-                    timer.schedule(timerTask,10000);
+                    timer.cancel();
+                    timer = new Timer();
+                    timer.schedule(timerTask,20 * 1000);
                 }
             }
         );

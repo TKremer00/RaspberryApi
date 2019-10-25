@@ -23,7 +23,7 @@ public class TemperatureController extends DbController {
             MongoCollection<Document> coll = collection();
             ArrayList<Object> temperatures = Temperature.toList(coll.find());
             ctx.json(temperatures);
-            ctx.status(201);
+            ctx.status(200);
         }catch (Exception e) {
             System.out.println(e.getMessage());
             ctx.result(Temperature.errorJson);
@@ -42,7 +42,7 @@ public class TemperatureController extends DbController {
         coll.insertOne(doc);
 
         ctx.result(Temperature.succesJson);
-        ctx.status(201);
+        ctx.status(200);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class TemperatureController extends DbController {
             MongoCollection<Document> coll = collection();
             ArrayList<Object> temperatures = Temperature.toList(coll.find( eq("_id", new ObjectId(ctx.pathParam("id"))) ));
             ctx.json(temperatures);
-            ctx.status(201);
+            ctx.status(200);
         }catch (Exception e) {
             System.out.println(e.getMessage());
             ctx.result(Temperature.errorJson);
@@ -65,7 +65,7 @@ public class TemperatureController extends DbController {
             MongoCollection<Document> coll = collection();
             coll.findOneAndDelete( eq("_id", new ObjectId(ctx.pathParam("id"))) );
             ctx.result(Temperature.succesJson);
-            ctx.status(201);
+            ctx.status(200);
         }catch (Exception e) {
             System.out.println(e.getMessage());
             ctx.result(Temperature.errorJson);

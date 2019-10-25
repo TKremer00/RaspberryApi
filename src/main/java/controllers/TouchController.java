@@ -10,39 +10,12 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import sensor.TouchSensor;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-
 import static com.mongodb.client.model.Filters.eq;
-import static java.util.concurrent.TimeUnit.*;
 
 public class TouchController extends DbController {
 
     private static String tableName = "touch";
     static Boolean canLedOn = false;
-    private static Timer timer = new Timer();
-    private static ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-
-    private static ScheduledFuture<?> future = scheduledExecutorService.scheduleAtFixedRate(
-            () -> canLedOn = false,
-            10,
-            0,
-            SECONDS
-    );
-
-
-    private static TimerTask timerTask = new TimerTask() {
-        @Override
-        public void run() {
-            System.out.println("set canled to false");
-            canLedOn = false;
-        }
-    };
-
 
     public TouchController() {
         super.table = "touch";
@@ -54,7 +27,7 @@ public class TouchController extends DbController {
             MongoCollection<Document> coll = collection();
             ArrayList<Object> touch = Touch.toList(coll.find());
             ctx.json(touch);
-            ctx.status(201);
+            ctx.status(200);
         }catch (Exception e) {
             System.out.println(e.getMessage());
             ctx.result(Touch.errorJson);
@@ -73,7 +46,7 @@ public class TouchController extends DbController {
             MongoCollection<Document> coll = collection();
             ArrayList<Object> touch = Touch.toList(coll.find( eq("_id", new ObjectId(ctx.pathParam("id"))) ));
             ctx.json(touch);
-            ctx.status(201);
+            ctx.status(200);
         }catch (Exception e) {
             System.out.println(e.getMessage());
             ctx.result(Touch.errorJson);
@@ -87,7 +60,7 @@ public class TouchController extends DbController {
             MongoCollection<Document> coll = collection();
             coll.findOneAndDelete( eq("_id", new ObjectId(ctx.pathParam("id"))) );
             ctx.result(Touch.succesJson);
-            ctx.status(201);
+            ctx.status(200);
         }catch (Exception e) {
             System.out.println(e.getMessage());
             ctx.result(Touch.errorJson);
@@ -105,11 +78,8 @@ public class TouchController extends DbController {
                     MongoCollection<Document> coll = new DBConfig().collection(tableName);
                     coll.insertOne(doc);
                     canLedOn = true;
-                    future.cancel(false);
-                    scheduledExecutorService.schedule((Runnable) future,10,SECONDS);
                 }
             }
         );
-
     }
 }

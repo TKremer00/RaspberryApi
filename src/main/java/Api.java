@@ -17,7 +17,10 @@ public class Api {
         }
 
         Javalin app = Javalin.create().start(7000);
+        app.config.enableCorsForAllOrigins();
         RouteHandler.Routes(app);
+
+        //Start listening for touches
         TouchController.startListening();
     }
 }

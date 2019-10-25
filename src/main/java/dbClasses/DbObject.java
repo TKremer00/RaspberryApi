@@ -18,7 +18,12 @@ public class DbObject {
     public static String errorJson = new JsonMessageHandler(new String[][] {{"status", "error"} }).toString();
 
     public Document toBson() {
-        Document doc = new Document(mapper.convertValue(this,Map.class));
+        Document doc = new Document();
+        try {
+            doc = new Document(mapper.convertValue(this,Map.class));
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         doc.put("_id" , new ObjectId());
         doc.put("timeStamp" , new Date());
         return doc;

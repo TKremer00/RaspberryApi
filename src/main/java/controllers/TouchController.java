@@ -12,14 +12,28 @@ import sensor.TouchSensor;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import static com.mongodb.client.model.Filters.eq;
+import static java.util.concurrent.TimeUnit.*;
 
 public class TouchController extends DbController {
 
     private static String tableName = "touch";
     static Boolean canLedOn = false;
     private static Timer timer = new Timer();
+    private static ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+
+    private static ScheduledFuture<?> future = scheduledExecutorService.scheduleAtFixedRate(
+            () -> canLedOn = false,
+            10,
+            0,
+            SECONDS
+    );
+
 
     private static TimerTask timerTask = new TimerTask() {
         @Override
@@ -91,9 +105,8 @@ public class TouchController extends DbController {
                     MongoCollection<Document> coll = new DBConfig().collection(tableName);
                     coll.insertOne(doc);
                     canLedOn = true;
-                    timer.cancel();
-                    timer = new Timer();
-                    timer.schedule(timerTask,20 * 1000);
+                    future.cancel(false);
+                    scheduledExecutorService.schedule((Runnable) future,10,SECONDS);
                 }
             }
         );

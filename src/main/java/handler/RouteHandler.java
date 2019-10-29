@@ -31,7 +31,7 @@ public class RouteHandler {
         led(BASE_PREFIX + "led");
         cpuTemperature(BASE_PREFIX + "cpu_temperature");
         touch(BASE_PREFIX + "touch");
-        temperature(BASE_PREFIX + "temperature");
+        //temperature(BASE_PREFIX + "temperature");
     }
 
     private void led(String prefix) {

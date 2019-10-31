@@ -39,22 +39,25 @@ public class RouteHandler {
     }
 
     private void cpuTemperature(String prefix) {
-        app.get   (prefix + "/",         ctx -> CPUtc.getAll(ctx) );
-        app.post  (prefix + "/",         ctx -> CPUtc.post  (ctx) );
-        app.get   (prefix + "/:id",      ctx -> CPUtc.getOne(ctx) );
-        app.delete(prefix + "/:id",      ctx -> CPUtc.delete(ctx) );
+        app.get   (prefix + "/",            ctx -> CPUtc.getAll(ctx)       );
+        app.get   (prefix + "/realtime",    ctx -> CPUtc.realTimeData(ctx) );
+        app.post  (prefix + "/",            ctx -> CPUtc.post  (ctx)       );
+        app.get   (prefix + "/:id",         ctx -> CPUtc.getOne(ctx)       );
+        app.delete(prefix + "/:id",         ctx -> CPUtc.delete(ctx)       );
     }
 
     private void touch(String prefix) {
-        app.get   (prefix + "/",         ctx -> touchController.getAll(ctx) );
-        app.get   (prefix + "/:id",      ctx -> touchController.getOne(ctx) );
-        app.delete(prefix + "/:id",      ctx -> touchController.delete(ctx) );
+        app.get   (prefix + "/",         ctx -> touchController.getAll(ctx)       );
+        app.get   (prefix + "/realtime", ctx -> touchController.realTimeData(ctx) );
+        app.get   (prefix + "/:id",      ctx -> touchController.getOne(ctx)       );
+        app.delete(prefix + "/:id",      ctx -> touchController.delete(ctx)       );
     }
 
     private void temperature(String prefix) {
-        app.get   (prefix + "/",         ctx -> tc.getAll(ctx) );
-        app.post  (prefix + "/",         ctx -> tc.post  (ctx) );
-        app.get   (prefix + "/:id",      ctx -> tc.getOne(ctx) );
-        app.delete(prefix + "/:id",      ctx -> tc.delete(ctx) );
+        app.get   (prefix + "/",         ctx -> tc.getAll(ctx)       );
+        app.get   (prefix + "/realtime", ctx -> tc.realTimeData(ctx) );
+        app.post  (prefix + "/",         ctx -> tc.post  (ctx)       );
+        app.get   (prefix + "/:id",      ctx -> tc.getOne(ctx)       );
+        app.delete(prefix + "/:id",      ctx -> tc.delete(ctx)       );
     }
 }

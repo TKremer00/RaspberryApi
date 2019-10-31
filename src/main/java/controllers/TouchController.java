@@ -4,6 +4,7 @@ import com.mongodb.client.MongoCollection;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import dbClasses.DbController;
 import dbConfig.DBConfig;
+import handler.JsonMessageHandler;
 import io.javalin.http.Context;
 import models.Touch;
 import org.bson.Document;
@@ -18,6 +19,12 @@ public class TouchController extends DbController {
 
     public TouchController() {
         super.table = "touch";
+    }
+
+    @Override
+    public void realTimeData(Context ctx) {
+        ctx.result(new JsonMessageHandler(new String[][] {{"status", "succesfull"}, {"realTimeData", Boolean.toString(TouchSensor.getState())}}).toString());
+        ctx.status(200);
     }
 
     @Override

@@ -14,4 +14,9 @@ public class TouchSensor {
     public static GpioPinDigitalInput getTouchSensor() {
         return sensor;
     }
+
+    public static boolean getState() {
+        return sensor.isLow();
+    }
+
 }

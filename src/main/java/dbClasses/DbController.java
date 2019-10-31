@@ -14,6 +14,7 @@ public abstract class DbController {
         return new DBConfig().collection(table);
     }
 
+    public abstract void realTimeData(Context ctx);
     public abstract void getAll(Context ctx);
     public abstract void post(Context ctx);
     public abstract void getOne(Context ctx);

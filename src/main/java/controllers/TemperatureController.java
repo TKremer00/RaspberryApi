@@ -2,11 +2,13 @@ package controllers;
 
 import com.mongodb.client.MongoCollection;
 import dbClasses.DbController;
+import handler.JsonMessageHandler;
 import io.javalin.http.Context;
 import models.CPUTemperature;
 import models.Temperature;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import sensor.CpuSensor;
 import sensor.DS1820Sensor;
 
 import java.util.ArrayList;
@@ -19,6 +21,12 @@ public class TemperatureController extends DbController {
         super.table = "temperature";
     }
 
+
+    @Override
+    public void realTimeData(Context ctx) {
+        ctx.result(new JsonMessageHandler(new String[][] {{"status", "succesfull"}, {"realTimeData", Double.toString(DS1820Sensor.getTemperature())}}).toString());
+        ctx.status(200);
+    }
 
     @Override
     public void getAll(Context ctx) {

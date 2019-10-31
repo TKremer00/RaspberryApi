@@ -3,6 +3,7 @@ package controllers;
 import java.util.ArrayList;
 import com.mongodb.client.MongoCollection;
 import dbClasses.DbController;
+import handler.JsonMessageHandler;
 import io.javalin.http.Context;
 import models.CPUTemperature;
 import org.bson.Document;
@@ -15,6 +16,12 @@ public class CPUTemperatureController extends DbController {
 
     public CPUTemperatureController() {
         super.table = "cpu_temperature";
+    }
+
+    @Override
+    public void realTimeData(Context ctx) {
+        ctx.result(new JsonMessageHandler(new String[][] {{"status", "succesfull"}, {"realTimeData", Double.toString(CpuSensor.getCPUtemperature())}}).toString());
+        ctx.status(200);
     }
 
     @Override

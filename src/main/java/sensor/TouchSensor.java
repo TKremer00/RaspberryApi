@@ -16,7 +16,7 @@ public class TouchSensor {
     }
 
     public static boolean getState() {
-        return sensor.isLow();
+        return sensor.isHigh();
     }
 
 }

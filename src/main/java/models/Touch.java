@@ -37,8 +37,4 @@ public class Touch extends DbObject {
         return PIN;
     }
 
-    // @override
-    public static ArrayList<Object> toList(FindIterable<Document> documents) throws JsonProcessingException {
-        return DbObject.toList(documents,Touch.class);
-    }
 }

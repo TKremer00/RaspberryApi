@@ -14,19 +14,12 @@ import java.util.concurrent.Future;
 public abstract class DbController {
 
     protected String table = "";
-    protected ExecutorService executor  = Executors.newSingleThreadExecutor();
     protected ObjectMapper mapper = new ObjectMapper();
 
     //Get collection of table
     protected MongoCollection<Document> collection() {
         return new DBConfig().collection(table);
     }
-
-    public abstract void realTimeData(Context ctx);
-    public abstract void getAll(Context ctx);
-    public abstract void post(Context ctx);
-    public abstract void getOne(Context ctx);
-    public abstract void delete(Context ctx);
 
     public abstract CompletableFuture<String> realTimeData();
     public abstract CompletableFuture<String> getAll();

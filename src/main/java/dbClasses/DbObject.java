@@ -29,11 +29,7 @@ public class DbObject {
         return doc;
     }
 
-    protected static ArrayList<Object> toList(FindIterable<Document> documents, Class currClass) throws JsonProcessingException {
-        ArrayList<Object> objects = new ArrayList<>();
-        for (Document document : documents) {
-            objects.add(mapper.readValue(document.toJson(), currClass));
-        }
-        return objects;
+    public static String toJson(FindIterable<Document> documents) throws JsonProcessingException {
+        return mapper.writeValueAsString(documents);
     }
 }

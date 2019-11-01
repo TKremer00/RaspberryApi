@@ -39,11 +39,6 @@ public class Temperature extends DbObject{
         this.temperature = temperature;
     }
 
-    // @override
-    public static ArrayList<Object> toList(FindIterable<Document> documents) throws JsonProcessingException {
-        return DbObject.toList(documents, CPUTemperature.class);
-    }
-
     public static Pin getPin() {
         return PIN;
     }

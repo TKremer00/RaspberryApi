@@ -35,7 +35,7 @@ public class RouteHandler {
     }
 
     private void led(String prefix) {
-        app.get  (prefix + "/",          ctx -> lc.get  (ctx)         );
+        app.get   (prefix + "/",          ctx -> ctx.result(lc.get().get()));
         app.get   (prefix + "/realtime", ctx -> lc.realTimeData(ctx)  );
         app.get   (prefix + "/blink",    ctx -> lc.blink(ctx)         );
     }

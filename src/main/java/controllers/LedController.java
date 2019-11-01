@@ -8,15 +8,24 @@ import handler.JsonMessageHandler;
 import io.javalin.http.Context;
 import models.Led;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
+
 public class LedController {
 
     private final static GpioController gpio = GpioFactory.getInstance();
     private GpioPinDigitalOutput led = gpio.provisionDigitalOutputPin(Led.getPin(), "led", PinState.LOW);;
+    private ExecutorService executor  = Executors.newSingleThreadExecutor();
 
-    public void get(Context ctx) {
-        led.toggle();
-        ctx.result( new JsonMessageHandler(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString() );
-        ctx.status(200);
+
+    public Future<String> get() {
+        return executor.submit(() -> {
+            led.toggle();
+            return new JsonMessageHandler(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString();
+        });
+
     }
 
     public void realTimeData(Context ctx) {
@@ -25,7 +34,7 @@ public class LedController {
     }
 
     public void blink(Context ctx) {
-        led.blink(250,1000,PinState.LOW);
+        led.blink(500,1000,PinState.LOW);
         ctx.status(200);
     }
 }

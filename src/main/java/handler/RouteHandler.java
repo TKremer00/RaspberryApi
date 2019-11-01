@@ -27,15 +27,7 @@ public class RouteHandler {
         cpuTemperature(BASE_PREFIX + "cpu_temperature");
         touch(BASE_PREFIX + "touch");
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("<html>");
-        sb.append("<head><meta name=\"author\" content=\"TKremer00\"><meta name=\"github\" content=\"https://github.com/TKremer00/\"></head>");
-        sb.append("<body>");
-        for (String value: PcbHandler.getAllRoutes()) {
-            sb.append("<a href=\"/").append(value).append("\">").append(value).append("</a><br>");
-        }
-        sb.append("</body></html>");
-        app.get("/", ctx -> ctx.html(sb.toString()));
+        app.get("/", ctx -> ctx.html(PcbHandler.getHtml()));
     }
 
     private void led(String prefix) {

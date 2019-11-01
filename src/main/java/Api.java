@@ -19,13 +19,6 @@ public class Api {
         }
 
         Javalin app = Javalin.create(JavalinConfig::enableCorsForAllOrigins).start(7000);
-
-        app.before( ctx -> {
-            if(ctx.method().equals("OPTIONS")) {
-                ctx.header(Header.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
-            }
-        });
-
         RouteHandler.Routes(app);
 
         //Start listening for touches

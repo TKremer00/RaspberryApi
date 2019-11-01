@@ -31,7 +31,6 @@ public class RouteHandler {
         led(BASE_PREFIX + "led");
         cpuTemperature(BASE_PREFIX + "cpu_temperature");
         touch(BASE_PREFIX + "touch");
-        //temperature(BASE_PREFIX + "temperature");
     }
 
     private void led(String prefix) {
@@ -41,25 +40,25 @@ public class RouteHandler {
     }
 
     private void cpuTemperature(String prefix) {
-        app.get   (prefix + "/",          ctx -> CPUtc.getAll()       );
-        app.get   (prefix + "/realtime",  ctx -> CPUtc.realTimeData() );
-        app.post  (prefix + "/",          ctx -> CPUtc.post  ()       );
-        app.get   (prefix + "/:id",       ctx -> CPUtc.getOne(ctx.pathParam("id"))       );
-        app.delete(prefix + "/:id",       ctx -> CPUtc.delete(ctx.pathParam("id"))       );
+        app.get   (prefix + "/",          ctx -> ctx.result(CPUtc.getAll())                        );
+        app.get   (prefix + "/realtime",  ctx -> ctx.result(CPUtc.realTimeData())                  );
+        app.post  (prefix + "/",          ctx -> ctx.result(CPUtc.post())                          );
+        app.get   (prefix + "/:id",       ctx -> ctx.result(CPUtc.getOne(ctx.pathParam("id"))) );
+        app.delete(prefix + "/:id",       ctx -> ctx.result(CPUtc.delete(ctx.pathParam("id"))) );
     }
 
     private void touch(String prefix) {
-        app.get   (prefix + "/",         ctx -> touchController.getAll()       );
-        app.get   (prefix + "/realtime", ctx -> touchController.realTimeData() );
-        app.get   (prefix + "/:id",      ctx -> touchController.getOne(ctx.pathParam("id"))       );
-        app.delete(prefix + "/:id",      ctx -> touchController.delete(ctx.pathParam("id"))       );
+        app.get   (prefix + "/",         ctx -> ctx.result(touchController.getAll())                        );
+        app.get   (prefix + "/realtime", ctx -> ctx.result(touchController.realTimeData())                  );
+        app.get   (prefix + "/:id",      ctx -> ctx.result(touchController.getOne(ctx.pathParam("id"))) );
+        app.delete(prefix + "/:id",      ctx -> ctx.result(touchController.delete(ctx.pathParam("id"))) );
     }
 
     private void temperature(String prefix) {
-        app.get   (prefix + "/",         ctx -> tc.getAll()       );
-        app.get   (prefix + "/realtime", ctx -> tc.realTimeData()                  );
-        app.post  (prefix + "/",         ctx -> tc.post  ()                        );
-        app.get   (prefix + "/:id",      ctx -> tc.getOne(ctx.pathParam("id")) );
-        app.delete(prefix + "/:id",      ctx -> tc.delete(ctx.pathParam("id")) );
+        app.get   (prefix + "/",         ctx -> ctx.result(tc.getAll())                        );
+        app.get   (prefix + "/realtime", ctx -> ctx.result(tc.realTimeData())                  );
+        app.post  (prefix + "/",         ctx -> ctx.result(tc.post())                          );
+        app.get   (prefix + "/:id",      ctx -> ctx.result(tc.getOne(ctx.pathParam("id"))) );
+        app.delete(prefix + "/:id",      ctx -> ctx.result(tc.delete(ctx.pathParam("id"))) );
     }
 }

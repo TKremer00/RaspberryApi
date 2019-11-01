@@ -7,6 +7,8 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -28,10 +30,9 @@ public class DbObject {
         return doc;
     }
 
-    public static String toJson(FindIterable<Document> documents) {
-        String test =StreamSupport.stream(documents.spliterator(), false).map(Document::toJson)
-                .collect(Collectors.joining(", ", "[", "]"));
-        System.out.println("=========================\n\n\n" + test + "\n\n\n");
-        return test;
+    public static Future<String> toJson(FindIterable<Document> documents) {
+        return Executors.newSingleThreadExecutor().submit(
+                () -> StreamSupport.stream(documents.spliterator(), false).map(Document::toJson)
+                .collect(Collectors.joining(", ", "[", "]")));
     }
 }

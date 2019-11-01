@@ -12,7 +12,7 @@ import java.util.concurrent.*;
 public class LedController {
 
     private final static GpioController gpio = GpioFactory.getInstance();
-    private GpioPinDigitalOutput led = gpio.provisionDigitalOutputPin(Led.getPin(), "led", PinState.LOW);
+    private GpioPinDigitalOutput led = gpio.provisionDigitalOutputPin(Led.getPin(), "led", PinState.HIGH);
 
     public CompletableFuture<String> get() {
         return CompletableFuture.supplyAsync( () -> {

@@ -25,7 +25,7 @@ public class LedController {
     }
 
     public void blink(Context ctx) {
-        led.blink(500,1000);
+        led.blink(250,1000,PinState.LOW);
         ctx.status(200);
     }
 }

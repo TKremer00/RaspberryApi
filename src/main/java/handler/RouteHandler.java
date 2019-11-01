@@ -2,7 +2,6 @@ package handler;
 
 import controllers.LedController;
 import controllers.CPUTemperatureController;
-import controllers.TemperatureController;
 import controllers.TouchController;
 import io.javalin.Javalin;
 
@@ -10,9 +9,8 @@ public class RouteHandler {
 
     private final String BASE_PREFIX = "api/v1/";
     private LedController lc = new LedController();
-    private CPUTemperatureController CPUtc = new CPUTemperatureController();
-    private TouchController touchController = new TouchController();
-    private TemperatureController tc = new TemperatureController();
+    private CPUTemperatureController Ctc = new CPUTemperatureController();
+    private TouchController tc = new TouchController();
     private Javalin app;
 
     private RouteHandler(Javalin app) {
@@ -25,40 +23,44 @@ public class RouteHandler {
     }
 
     private void Routes() {
-        // Default route
-        app.get("/", ctx -> ctx.result("Api version 1"));
-
         led(BASE_PREFIX + "led");
         cpuTemperature(BASE_PREFIX + "cpu_temperature");
         touch(BASE_PREFIX + "touch");
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("<html>");
+        sb.append("<head><meta name=\"author\" content=\"TKremer00\"><meta name=\"github\" content=\"https://github.com/TKremer00/\"></head>");
+        sb.append("<body>");
+        for (String value: PcbHandler.getAllRoutes()) {
+            sb.append("<a href=\"/" + BASE_PREFIX + "/").append(value).append("\">").append(value).append("</a>");
+        }
+        sb.append("</body></html>");
+        app.get("/", ctx -> ctx.html(sb.toString()));
     }
 
     private void led(String prefix) {
+        PcbHandler.AddPcb(prefix);
         app.get   (prefix + "/",         ctx -> ctx.result(lc.get())          );
         app.get   (prefix + "/realtime", ctx -> ctx.result(lc.realTimeData()) );
         app.get   (prefix + "/blink",    ctx -> ctx.result(lc.blink())        );
     }
 
     private void cpuTemperature(String prefix) {
-        app.get   (prefix + "/",          ctx -> ctx.result(CPUtc.getAll())                        );
-        app.get   (prefix + "/realtime",  ctx -> ctx.result(CPUtc.realTimeData())                  );
-        app.post  (prefix + "/",          ctx -> ctx.result(CPUtc.post())                          );
-        app.get   (prefix + "/:id",       ctx -> ctx.result(CPUtc.getOne(ctx.pathParam("id"))) );
-        app.delete(prefix + "/:id",       ctx -> ctx.result(CPUtc.delete(ctx.pathParam("id"))) );
+        PcbHandler.AddPcb(prefix);
+        app.get   (prefix + "/",          ctx -> ctx.result(Ctc.getAll())                        );
+        app.get   (prefix + "/realtime",  ctx -> ctx.result(Ctc.realTimeData())                  );
+        app.post  (prefix + "/",          ctx -> ctx.result(Ctc.post())                          );
+        app.get   (prefix + "/:id",       ctx -> ctx.result(Ctc.getOne(ctx.pathParam("id"))) );
+        app.delete(prefix + "/:id",       ctx -> ctx.result(Ctc.delete(ctx.pathParam("id"))) );
     }
 
     private void touch(String prefix) {
-        app.get   (prefix + "/",         ctx -> ctx.result(touchController.getAll())                        );
-        app.get   (prefix + "/realtime", ctx -> ctx.result(touchController.realTimeData())                  );
-        app.get   (prefix + "/:id",      ctx -> ctx.result(touchController.getOne(ctx.pathParam("id"))) );
-        app.delete(prefix + "/:id",      ctx -> ctx.result(touchController.delete(ctx.pathParam("id"))) );
-    }
-
-    private void temperature(String prefix) {
+        PcbHandler.AddPcb(prefix);
         app.get   (prefix + "/",         ctx -> ctx.result(tc.getAll())                        );
         app.get   (prefix + "/realtime", ctx -> ctx.result(tc.realTimeData())                  );
-        app.post  (prefix + "/",         ctx -> ctx.result(tc.post())                          );
         app.get   (prefix + "/:id",      ctx -> ctx.result(tc.getOne(ctx.pathParam("id"))) );
         app.delete(prefix + "/:id",      ctx -> ctx.result(tc.delete(ctx.pathParam("id"))) );
     }
+
+
 }

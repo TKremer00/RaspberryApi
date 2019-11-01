@@ -27,7 +27,7 @@ public class LedController {
 
     public CompletableFuture<String> blink() {
         return CompletableFuture.supplyAsync( () -> {
-            led.blink(500,1000,PinState.LOW);
+            led.blink(500,1500,PinState.LOW);
             return new JsonMessageHandler(new String[][] {{"status","successfull"}}).toString();
         });
     }

@@ -35,15 +35,17 @@ public class RouteHandler {
     }
 
     private void led(String prefix) {
-        app.get  (prefix + "/",         ctx -> lc.get  (ctx) );
+        app.get  (prefix + "/",          ctx -> lc.get  (ctx)         );
+        app.get   (prefix + "/realtime", ctx -> lc.realTimeData(ctx)  );
+        app.get   (prefix + "/blink",    ctx -> lc.blink(ctx)         );
     }
 
     private void cpuTemperature(String prefix) {
-        app.get   (prefix + "/",            ctx -> CPUtc.getAll(ctx)       );
-        app.get   (prefix + "/realtime",    ctx -> CPUtc.realTimeData(ctx) );
-        app.post  (prefix + "/",            ctx -> CPUtc.post  (ctx)       );
-        app.get   (prefix + "/:id",         ctx -> CPUtc.getOne(ctx)       );
-        app.delete(prefix + "/:id",         ctx -> CPUtc.delete(ctx)       );
+        app.get   (prefix + "/",          ctx -> CPUtc.getAll(ctx)       );
+        app.get   (prefix + "/realtime",  ctx -> CPUtc.realTimeData(ctx) );
+        app.post  (prefix + "/",          ctx -> CPUtc.post  (ctx)       );
+        app.get   (prefix + "/:id",       ctx -> CPUtc.getOne(ctx)       );
+        app.delete(prefix + "/:id",       ctx -> CPUtc.delete(ctx)       );
     }
 
     private void touch(String prefix) {

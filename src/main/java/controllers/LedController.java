@@ -16,5 +16,16 @@ public class LedController {
     public void get(Context ctx) {
         led.toggle();
         ctx.result( new JsonMessageHandler(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString() );
+        ctx.status(200);
+    }
+
+    public void realTimeData(Context ctx) {
+        ctx.result( new JsonMessageHandler(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString() );
+        ctx.status(200);
+    }
+
+    public void blink(Context ctx) {
+        led.blink(500,1000);
+        ctx.status(200);
     }
 }

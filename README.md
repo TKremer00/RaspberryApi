@@ -9,7 +9,7 @@ Tut : https://www.youtube.com/watch?v=czT2-vKSU6w
 
 ## To Run
 mvn clean package<br>
-sudo java -jar target/... (Whit dependecys).jar
+sudo java -jar target/... (Whit dependecies).jar
 
 ## how? 
 Using magic code

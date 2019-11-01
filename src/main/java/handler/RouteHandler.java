@@ -32,7 +32,7 @@ public class RouteHandler {
         sb.append("<head><meta name=\"author\" content=\"TKremer00\"><meta name=\"github\" content=\"https://github.com/TKremer00/\"></head>");
         sb.append("<body>");
         for (String value: PcbHandler.getAllRoutes()) {
-            sb.append("<a href=\"/" + BASE_PREFIX + "/").append(value).append("\">").append(value).append("</a><br>");
+            sb.append("<a href=\"/").append(value).append("\">").append(value).append("</a><br>");
         }
         sb.append("</body></html>");
         app.get("/", ctx -> ctx.html(sb.toString()));

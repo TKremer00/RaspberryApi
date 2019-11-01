@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import com.mongodb.client.MongoCollection;
 import dbClasses.*;
@@ -20,7 +21,6 @@ public class CPUTemperatureController extends DbController {
     @Override
     public CompletableFuture<String> realTimeData() {
         return CompletableFuture.supplyAsync(() -> new JsonMessageHandler(new String[][] {{"status", "succesfull"}, {"realTimeData", Double.toString(CpuSensor.getCPUtemperature())}}).toString());
-
     }
 
     @Override
@@ -56,7 +56,7 @@ public class CPUTemperatureController extends DbController {
         return CompletableFuture.supplyAsync( () -> {
             try {
                 MongoCollection<Document> coll = collection();
-                return CPUTemperature.toJson(coll.find( eq("_id", new ObjectId(id)) )).get();
+                return Objects.requireNonNull(coll.find(eq("_id", new ObjectId(id))).first()).toJson();
             }catch (Exception e) {
                 System.out.println(e.getMessage());
                 return DbObject.errorJson;

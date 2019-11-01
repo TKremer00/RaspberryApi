@@ -8,6 +8,8 @@ import models.Temperature;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import sensor.DS1820Sensor;
+
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import static com.mongodb.client.model.Filters.eq;
 
@@ -55,7 +57,7 @@ public class TemperatureController extends DbController {
         return CompletableFuture.supplyAsync( () -> {
             try {
                 MongoCollection<Document> coll = collection();
-                return CPUTemperature.toJson(coll.find( eq("_id", new ObjectId(id)))).get();
+                return Objects.requireNonNull(coll.find(eq("_id", new ObjectId(id))).first()).toJson();
             }catch (Exception e) {
                 System.out.println(e.getMessage());
                 return DbObject.errorJson;

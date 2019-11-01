@@ -1,15 +1,14 @@
 package dbClasses;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
 import handler.JsonMessageHandler;
 import org.bson.Document;
 import org.bson.types.ObjectId;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class DbObject {
 
@@ -29,7 +28,8 @@ public class DbObject {
         return doc;
     }
 
-    public static String toJson(FindIterable<Document> documents) throws JsonProcessingException {
-        return mapper.writeValueAsString(documents);
+    public static String toJson(FindIterable<Document> documents) {
+        return StreamSupport.stream(documents.spliterator(), false).map(Document::toJson)
+                .collect(Collectors.joining(", ", "[", "]"));
     }
 }

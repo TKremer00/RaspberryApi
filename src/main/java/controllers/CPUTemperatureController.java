@@ -28,7 +28,7 @@ public class CPUTemperatureController extends DbController {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 MongoCollection<Document> coll = collection();
-                return CPUTemperature.toJson(coll.find());
+                return CPUTemperature.toJson(coll.find()).get();
             }catch (Exception e) {
                 System.out.println(e.getMessage());
                 return DbObject.errorJson;
@@ -56,7 +56,7 @@ public class CPUTemperatureController extends DbController {
         return CompletableFuture.supplyAsync( () -> {
             try {
                 MongoCollection<Document> coll = collection();
-                return CPUTemperature.toJson(coll.find( eq("_id", new ObjectId(id)) ));
+                return CPUTemperature.toJson(coll.find( eq("_id", new ObjectId(id)) )).get();
             }catch (Exception e) {
                 System.out.println(e.getMessage());
                 return DbObject.errorJson;

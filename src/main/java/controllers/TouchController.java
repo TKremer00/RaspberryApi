@@ -32,7 +32,7 @@ public class TouchController extends DbController {
         return CompletableFuture.supplyAsync( () -> {
             try {
                 MongoCollection<Document> coll = collection();
-                return Touch.toJson(coll.find());
+                return Touch.toJson(coll.find()).get();
             }catch (Exception e) {
                 System.out.println(e.getMessage());
                 return DbObject.errorJson;
@@ -50,7 +50,7 @@ public class TouchController extends DbController {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 MongoCollection<Document> coll = collection();
-                return Touch.toJson(coll.find( eq("_id", new ObjectId(id)) ));
+                return Touch.toJson(coll.find( eq("_id", new ObjectId(id)) )).get();
             }catch (Exception e) {
                 System.out.println(e.getMessage());
                 return DbObject.errorJson;

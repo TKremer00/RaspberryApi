@@ -3,6 +3,7 @@ package controllers;
 import com.mongodb.client.MongoCollection;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import dbClasses.DbController;
+import dbClasses.DbObject;
 import dbConfig.DBConfig;
 import handler.JsonMessageHandler;
 import io.javalin.http.Context;
@@ -11,6 +12,8 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import sensor.TouchSensor;
 import java.util.ArrayList;
+import java.util.concurrent.Future;
+
 import static com.mongodb.client.model.Filters.eq;
 
 public class TouchController extends DbController {
@@ -72,6 +75,58 @@ public class TouchController extends DbController {
             ctx.result(Touch.errorJson);
             ctx.status(400);
         }
+    }
+
+    @Override
+    public Future<String> realTimeData() {
+        return super.executor.submit(() -> new JsonMessageHandler(new String[][] {{"status", "succesfull"}, {"realTimeData", Boolean.toString(TouchSensor.getState())}}).toString());
+    }
+
+    @Override
+    public Future<String> getAll() {
+        return super.executor.submit( () -> {
+            try {
+                MongoCollection<Document> coll = collection();
+                ArrayList<Object> touch = Touch.toList(coll.find());
+                return super.mapper.writeValueAsString(touch);
+            }catch (Exception e) {
+                System.out.println(e.getMessage());
+                return DbObject.errorJson;
+            }
+        });
+    }
+
+    @Override
+    public Future<String> post() {
+        return null;
+    }
+
+    @Override
+    public Future<String> getOne(String id) {
+        return super.executor.submit(() -> {
+            try {
+                MongoCollection<Document> coll = collection();
+                ArrayList<Object> touch = Touch.toList(coll.find( eq("_id", new ObjectId(id)) ));
+                return super.mapper.writeValueAsString(touch);
+            }catch (Exception e) {
+                System.out.println(e.getMessage());
+                return DbObject.errorJson;
+            }
+        });
+    }
+
+    @Override
+    public Future<String> delete(String id) {
+        return super.executor.submit(() -> {
+            try {
+                MongoCollection<Document> coll = collection();
+                coll.findOneAndDelete( eq("_id", new ObjectId(id)) );
+                return DbObject.succesJson;
+            }catch (Exception e) {
+                System.out.println(e.getMessage());
+                return DbObject.errorJson;
+            }
+        });
     }
 
     public static void startListening() {

@@ -19,13 +19,10 @@ public class LedController {
     private GpioPinDigitalOutput led = gpio.provisionDigitalOutputPin(Led.getPin(), "led", PinState.LOW);;
     private ExecutorService executor  = Executors.newSingleThreadExecutor();
 
-
-    public Future<String> get() {
-        return executor.submit(() -> {
-            led.toggle();
-            return new JsonMessageHandler(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString();
-        });
-
+    public void get(Context ctx) {
+        led.toggle();
+        ctx.result(new JsonMessageHandler(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString());
+        ctx.status(200);
     }
 
     public void realTimeData(Context ctx) {
@@ -36,5 +33,29 @@ public class LedController {
     public void blink(Context ctx) {
         led.blink(500,1000,PinState.LOW);
         ctx.status(200);
+    }
+
+    /* FUTURE */
+
+    public Future<String> get() {
+        return executor.submit(
+            () -> {
+                led.toggle();
+                return new JsonMessageHandler(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString();
+            }
+        );
+    }
+
+    public Future<String> realTimeData() {
+        return executor.submit(() -> new JsonMessageHandler(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString());
+    }
+
+    public Future<String> blink() {
+        return executor.submit(
+                () -> {
+                    led.blink(500,1000,PinState.LOW);
+                    return new JsonMessageHandler(new String[][] {{"status","successfull"}}).toString();
+                }
+        );
     }
 }

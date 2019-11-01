@@ -12,6 +12,7 @@ import sensor.CpuSensor;
 import sensor.DS1820Sensor;
 
 import java.util.ArrayList;
+import java.util.concurrent.Future;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -82,5 +83,30 @@ public class TemperatureController extends DbController {
             ctx.result(Temperature.errorJson);
             ctx.status(400);
         }
+    }
+
+    @Override
+    public Future<String> realTimeData() {
+        return null;
+    }
+
+    @Override
+    public Future<String> getAll() {
+        return null;
+    }
+
+    @Override
+    public Future<String> post() {
+        return null;
+    }
+
+    @Override
+    public Future<String> getOne(String id) {
+        return null;
+    }
+
+    @Override
+    public Future<String> delete(String id) {
+        return null;
     }
 }

@@ -29,7 +29,9 @@ public class DbObject {
     }
 
     public static String toJson(FindIterable<Document> documents) {
-        return StreamSupport.stream(documents.spliterator(), false).map(Document::toJson)
+        String test =StreamSupport.stream(documents.spliterator(), false).map(Document::toJson)
                 .collect(Collectors.joining(", ", "[", "]"));
+        System.out.println("=========================\n\n\n" + test + "\n\n\n");
+        return test;
     }
 }

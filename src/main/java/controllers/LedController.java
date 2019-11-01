@@ -6,8 +6,8 @@ import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinState;
 import handler.JsonMessageHandler;
 import models.Led;
+import java.util.concurrent.CompletableFuture;
 
-import java.util.concurrent.*;
 
 public class LedController {
 

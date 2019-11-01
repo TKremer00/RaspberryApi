@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 import com.mongodb.client.MongoCollection;
@@ -52,7 +53,7 @@ public class CPUTemperatureController extends DbController {
         MongoCollection<Document> coll = collection();
         coll.insertOne(doc);
 
-        ctx.result(CPUTemperature.succesJson);
+        ctx.result(DbObject.succesJson);
         ctx.status(200);
     }
 
@@ -85,14 +86,14 @@ public class CPUTemperatureController extends DbController {
     }
 
     @Override
-    public Future<String> realTimeData() {
-        return super.executor.submit(() -> new JsonMessageHandler(new String[][] {{"status", "succesfull"}, {"realTimeData", Double.toString(CpuSensor.getCPUtemperature())}}).toString());
+    public CompletableFuture<String> realTimeData() {
+        return CompletableFuture.supplyAsync(() -> new JsonMessageHandler(new String[][] {{"status", "succesfull"}, {"realTimeData", Double.toString(CpuSensor.getCPUtemperature())}}).toString());
 
     }
 
     @Override
-    public Future<String> getAll() {
-        return super.executor.submit(() -> {
+    public CompletableFuture<String> getAll() {
+        return CompletableFuture.supplyAsync(() -> {
             try {
                 StringWriter sw = new StringWriter();
                 MongoCollection<Document> coll = collection();
@@ -106,8 +107,8 @@ public class CPUTemperatureController extends DbController {
     }
 
     @Override
-    public Future<String> post() {
-        return super.executor.submit( () -> {
+    public CompletableFuture<String> post() {
+        return CompletableFuture.supplyAsync( () -> {
             CPUTemperature CPUTemperature = new CPUTemperature();
             CPUTemperature.setTemperature(CpuSensor.getCPUtemperature());
 
@@ -121,8 +122,8 @@ public class CPUTemperatureController extends DbController {
     }
 
     @Override
-    public Future<String> getOne(String id) {
-        return super.executor.submit( () -> {
+    public CompletableFuture<String> getOne(String id) {
+        return CompletableFuture.supplyAsync( () -> {
             try {
                 MongoCollection<Document> coll = collection();
                 ArrayList<Object> temperatures = CPUTemperature.toList(coll.find( eq("_id", new ObjectId(id)) ));
@@ -135,8 +136,8 @@ public class CPUTemperatureController extends DbController {
     }
 
     @Override
-    public Future<String> delete(String id) {
-        return super.executor.submit( () -> {
+    public CompletableFuture<String> delete(String id) {
+        return CompletableFuture.supplyAsync( () -> {
             try {
                 MongoCollection<Document> coll = collection();
                 coll.findOneAndDelete( eq("_id", new ObjectId(id)) );

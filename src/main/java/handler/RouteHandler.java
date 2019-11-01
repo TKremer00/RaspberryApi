@@ -35,9 +35,9 @@ public class RouteHandler {
     }
 
     private void led(String prefix) {
-        app.get   (prefix + "/",         ctx -> ctx.result(lc.get().get())          );
-        app.get   (prefix + "/realtime", ctx -> ctx.result(lc.realTimeData().get()) );
-        app.get   (prefix + "/blink",    ctx -> ctx.result(lc.blink().get())        );
+        app.get   (prefix + "/",         ctx -> ctx.result(lc.get())          );
+        app.get   (prefix + "/realtime", ctx -> ctx.result(lc.realTimeData()) );
+        app.get   (prefix + "/blink",    ctx -> ctx.result(lc.blink())        );
     }
 
     private void cpuTemperature(String prefix) {
@@ -49,11 +49,11 @@ public class RouteHandler {
     }
 
     private void cpuTemperatureFuture(String prefix) {
-        app.get   (prefix + "/",          ctx -> ctx.result(CPUtc.getAll().get())                         );
-        app.get   (prefix + "/realtime",  ctx -> ctx.result(CPUtc.realTimeData().get())                   );
-        app.post  (prefix + "/",          ctx -> ctx.result(CPUtc.post().get())                           );
-        app.get   (prefix + "/:id",       ctx -> ctx.result(CPUtc.getOne(ctx.pathParam("id")).get())  );
-        app.delete(prefix + "/:id",       ctx -> ctx.result(CPUtc.delete(ctx.pathParam("id")).get())  );
+        app.get   (prefix + "/",          ctx -> ctx.result(CPUtc.getAll())                         );
+        app.get   (prefix + "/realtime",  ctx -> ctx.result(CPUtc.realTimeData())                   );
+        app.post  (prefix + "/",          ctx -> ctx.result(CPUtc.post())                           );
+        app.get   (prefix + "/:id",       ctx -> ctx.result(CPUtc.getOne(ctx.pathParam("id")))  );
+        app.delete(prefix + "/:id",       ctx -> ctx.result(CPUtc.delete(ctx.pathParam("id")))  );
     }
 
     private void touch(String prefix) {
@@ -72,10 +72,10 @@ public class RouteHandler {
     }
 
     private void touchFuture(String prefix) {
-        app.get   (prefix + "/",          ctx -> ctx.result(CPUtc.getAll().get())                         );
-        app.get   (prefix + "/realtime",  ctx -> ctx.result(CPUtc.realTimeData().get())                   );
-        app.post  (prefix + "/",          ctx -> ctx.result(CPUtc.post().get())                           );
-        app.get   (prefix + "/:id",       ctx -> ctx.result(CPUtc.getOne(ctx.pathParam("id")).get())  );
-        app.delete(prefix + "/:id",       ctx -> ctx.result(CPUtc.delete(ctx.pathParam("id")).get())  );
+        app.get   (prefix + "/",          ctx -> ctx.result(CPUtc.getAll())                         );
+        app.get   (prefix + "/realtime",  ctx -> ctx.result(CPUtc.realTimeData())                   );
+        app.post  (prefix + "/",          ctx -> ctx.result(CPUtc.post())                           );
+        app.get   (prefix + "/:id",       ctx -> ctx.result(CPUtc.getOne(ctx.pathParam("id")))  );
+        app.delete(prefix + "/:id",       ctx -> ctx.result(CPUtc.delete(ctx.pathParam("id")))  );
     }
 }

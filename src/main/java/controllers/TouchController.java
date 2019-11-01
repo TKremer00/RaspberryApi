@@ -12,6 +12,7 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import sensor.TouchSensor;
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -78,13 +79,13 @@ public class TouchController extends DbController {
     }
 
     @Override
-    public Future<String> realTimeData() {
-        return super.executor.submit(() -> new JsonMessageHandler(new String[][] {{"status", "succesfull"}, {"realTimeData", Boolean.toString(TouchSensor.getState())}}).toString());
+    public CompletableFuture<String> realTimeData() {
+        return CompletableFuture.supplyAsync(() -> new JsonMessageHandler(new String[][] {{"status", "succesfull"}, {"realTimeData", Boolean.toString(TouchSensor.getState())}}).toString());
     }
 
     @Override
-    public Future<String> getAll() {
-        return super.executor.submit( () -> {
+    public CompletableFuture<String> getAll() {
+        return CompletableFuture.supplyAsync( () -> {
             try {
                 MongoCollection<Document> coll = collection();
                 ArrayList<Object> touch = Touch.toList(coll.find());
@@ -97,13 +98,13 @@ public class TouchController extends DbController {
     }
 
     @Override
-    public Future<String> post() {
+    public CompletableFuture<String> post() {
         return null;
     }
 
     @Override
-    public Future<String> getOne(String id) {
-        return super.executor.submit(() -> {
+    public CompletableFuture<String> getOne(String id) {
+        return CompletableFuture.supplyAsync(() -> {
             try {
                 MongoCollection<Document> coll = collection();
                 ArrayList<Object> touch = Touch.toList(coll.find( eq("_id", new ObjectId(id)) ));
@@ -116,8 +117,8 @@ public class TouchController extends DbController {
     }
 
     @Override
-    public Future<String> delete(String id) {
-        return super.executor.submit(() -> {
+    public CompletableFuture<String> delete(String id) {
+        return CompletableFuture.supplyAsync(() -> {
             try {
                 MongoCollection<Document> coll = collection();
                 coll.findOneAndDelete( eq("_id", new ObjectId(id)) );

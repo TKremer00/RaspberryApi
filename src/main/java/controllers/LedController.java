@@ -8,16 +8,12 @@ import handler.JsonMessageHandler;
 import io.javalin.http.Context;
 import models.Led;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
 
 public class LedController {
 
     private final static GpioController gpio = GpioFactory.getInstance();
-    private GpioPinDigitalOutput led = gpio.provisionDigitalOutputPin(Led.getPin(), "led", PinState.LOW);;
-    private ExecutorService executor  = Executors.newSingleThreadExecutor();
+    private GpioPinDigitalOutput led = gpio.provisionDigitalOutputPin(Led.getPin(), "led", PinState.LOW);
 
     public void get(Context ctx) {
         led.toggle();
@@ -37,8 +33,8 @@ public class LedController {
 
     /* FUTURE */
 
-    public Future<String> get() {
-        return executor.submit(
+    public CompletableFuture<String> get() {
+        return CompletableFuture.supplyAsync(
             () -> {
                 led.toggle();
                 return new JsonMessageHandler(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString();
@@ -46,12 +42,12 @@ public class LedController {
         );
     }
 
-    public Future<String> realTimeData() {
-        return executor.submit(() -> new JsonMessageHandler(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString());
+    public CompletableFuture<String> realTimeData() {
+        return CompletableFuture.supplyAsync(() -> new JsonMessageHandler(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString());
     }
 
-    public Future<String> blink() {
-        return executor.submit(
+    public CompletableFuture<String> blink() {
+        return CompletableFuture.supplyAsync(
                 () -> {
                     led.blink(500,1000,PinState.LOW);
                     return new JsonMessageHandler(new String[][] {{"status","successfull"}}).toString();

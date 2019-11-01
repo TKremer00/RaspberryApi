@@ -6,6 +6,7 @@ import dbConfig.DBConfig;
 import io.javalin.http.Context;
 import org.bson.Document;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -27,9 +28,9 @@ public abstract class DbController {
     public abstract void getOne(Context ctx);
     public abstract void delete(Context ctx);
 
-    public abstract Future<String> realTimeData();
-    public abstract Future<String> getAll();
-    public abstract Future<String> post();
-    public abstract Future<String> getOne(String id);
-    public abstract Future<String> delete(String id);
+    public abstract CompletableFuture<String> realTimeData();
+    public abstract CompletableFuture<String> getAll();
+    public abstract CompletableFuture<String> post();
+    public abstract CompletableFuture<String> getOne(String id);
+    public abstract CompletableFuture<String> delete(String id);
 }

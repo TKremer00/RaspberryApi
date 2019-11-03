@@ -32,9 +32,4 @@ public class Touch extends DbObject {
     public static Pin getPin() {
         return PIN;
     }
-
-    @Override
-    public DbObject getInstance() {
-        return new Touch();
-    }
 }

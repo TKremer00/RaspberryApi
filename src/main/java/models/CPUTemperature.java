@@ -31,11 +31,4 @@ public class CPUTemperature extends DbObject {
     public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
-
-    @Override
-    public DbObject getInstance() {
-        CPUTemperature cpuTemperature = new CPUTemperature();
-        cpuTemperature.setTemperature(CpuSensor.getCPUtemperature());
-        return cpuTemperature;
-    }
 }

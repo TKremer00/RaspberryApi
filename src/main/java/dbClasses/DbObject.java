@@ -12,12 +12,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public abstract class DbObject {
+public class DbObject {
 
     private static ObjectMapper mapper = new ObjectMapper();
     static String succesJson = new JsonMessageHandler(new String[][] {{"status", "succesfull"}}).toString();
-
-    public abstract DbObject getInstance();
 
     // Object to document
     public Document toBson() {

@@ -36,12 +36,14 @@ public class TouchController extends DbController {
     // Listen for state change, then add database entry
     public static void startListening() {
         TouchSensor.getTouchSensor().addListener(
+
             (GpioPinListenerDigital) event -> {
+                final DBConfig DB_CONFIG = new DBConfig();
                 // Log if high
                 if(event.getState().isHigh()) {
                     Touch touch = new Touch();
                     Document doc = touch.toBson();
-                    MongoCollection<Document> coll = new DBConfig().collection(tableName);
+                    MongoCollection<Document> coll = DB_CONFIG.collection(tableName);
                     coll.insertOne(doc);
                 }
             }

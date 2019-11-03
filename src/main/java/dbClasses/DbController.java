@@ -13,14 +13,15 @@ import static com.mongodb.client.model.Filters.eq;
 public abstract class DbController implements RealTimeInterface {
 
     protected String table = "";
+    private final DBConfig DB_CONFIG = new DBConfig();
 
     protected abstract DbObject prepareModel();
 
     // Get collection of table
     private MongoCollection<Document> collection() {
-        return new DBConfig().collection(table);
+        return DB_CONFIG.collection(table);
     }
-    
+
     public abstract CompletableFuture<String> realTimeData();
 
     // Get all database records for table

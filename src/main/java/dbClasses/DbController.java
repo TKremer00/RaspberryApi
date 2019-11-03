@@ -16,13 +16,12 @@ public abstract class DbController implements RealTimeInterface {
     private final DBConfig DB_CONFIG = new DBConfig();
 
     protected abstract DbObject prepareModel();
-
+    public abstract CompletableFuture<String> realTimeData();
+    
     // Get collection of table
     private MongoCollection<Document> collection() {
         return DB_CONFIG.collection(table);
     }
-
-    public abstract CompletableFuture<String> realTimeData();
 
     // Get all database records for table
     public CompletableFuture<String> getAll() {

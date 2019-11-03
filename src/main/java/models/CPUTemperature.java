@@ -32,7 +32,7 @@ public class CPUTemperature extends DbObject {
         this.temperature = temperature;
     }
 
-    public static DbObject getInstance() {
+    public DbObject getInstance() {
         CPUTemperature cpuTemperature = new CPUTemperature();
         cpuTemperature.setTemperature(CpuSensor.getCPUtemperature());
         return cpuTemperature;

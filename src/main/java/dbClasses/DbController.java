@@ -30,7 +30,7 @@ public abstract class DbController implements RealTimeInterface {
 
     // Add database entry
     public CompletableFuture<String> post() {
-        return CompletableFuture.supplyAsync(CPUTemperature::getInstance)
+        return CompletableFuture.supplyAsync(dbObject::getInstance)
                 .thenApplyAsync(DbObject::toBson)
                 .thenApplyAsync(document -> {collection().insertOne(document); return DbObject.succesJson;});
     }

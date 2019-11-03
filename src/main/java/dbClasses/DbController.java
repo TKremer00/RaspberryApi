@@ -20,8 +20,6 @@ public abstract class DbController {
         return new DBConfig().collection(table);
     }
 
-    public abstract CompletableFuture<String> realTimeData();
-
     public CompletableFuture<String> getAll() {
         return CompletableFuture.supplyAsync(this::collection)
                 .thenApplyAsync(coll -> CPUTemperature.toJson(coll.find()));

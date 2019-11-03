@@ -23,12 +23,19 @@ public class DbObject {
         try {
             System.out.println(mapper.writeValueAsString(this));
             Document doc = Document.parse(mapper.writeValueAsString(this));
-//            if(!doc.containsKey("_id")){
-//                doc.put("_id" , new ObjectId());
-//            }
-//            if(!doc.containsKey("timeStamp")) {
-//                doc.put("timeStamp" , new Date());
-//            }
+            if(!doc.containsKey("_id")){
+                doc.put("_id" , new ObjectId());
+            }else if(doc.containsKey("_id") && doc.get("_id") == null) {
+                doc.remove("_id");
+                doc.put("_id" , new ObjectId());
+            }
+
+            if(!doc.containsKey("timeStamp")) {
+                doc.put("timeStamp" , new Date());
+            }else if(doc.containsKey("timeStamp") && doc.get("timeStamp") == null) {
+                doc.remove("timeStamp");
+                doc.put("timeStamp" , new Date());
+            }
             System.out.println("\n\n\n\n\nTo bson on : " + this.getClass().getName() + "\nValues : " + doc.toString() + "\n\n\n\n\n");
             return doc;
         }catch (Exception e) {

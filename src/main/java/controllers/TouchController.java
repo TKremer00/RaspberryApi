@@ -27,6 +27,13 @@ public class TouchController extends DbController {
                 .thenApplyAsync(jsonMessageHandler -> jsonMessageHandler.SensorMessage(Boolean.toString(TouchSensor.getState())));
     }
 
+    @Override
+    public CompletableFuture<String> post() {
+        return CompletableFuture.supplyAsync(Touch::new)
+                .thenApplyAsync(DbObject::toBson)
+                .thenApplyAsync(Document::toString);
+    }
+
     // Listen for state change, then add database entry
     public static void startListening() {
         TouchSensor.getTouchSensor().addListener(

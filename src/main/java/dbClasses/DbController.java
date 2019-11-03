@@ -29,11 +29,7 @@ public abstract class DbController implements RealTimeInterface {
     }
 
     // Add database entry
-    public CompletableFuture<String> post() {
-        return CompletableFuture.supplyAsync(dbObject::getInstance)
-                .thenApplyAsync(DbObject::toBson)
-                .thenApplyAsync(Document::toString);
-    }
+    public abstract CompletableFuture<String> post();
 
     public CompletableFuture<String> getOne(String id) {
         return CompletableFuture.supplyAsync(this::collection)

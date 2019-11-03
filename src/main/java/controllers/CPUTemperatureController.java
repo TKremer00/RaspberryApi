@@ -23,11 +23,11 @@ public class CPUTemperatureController extends DbController {
                 .thenApplyAsync(jsonMessageHandler -> jsonMessageHandler.SensorMessage(Double.toString(CpuSensor.getCPUtemperature())));
     }
 
-
     @Override
-    public CompletableFuture<String> post() {
-        return CompletableFuture.supplyAsync(CPUTemperature::new)
-                .thenApplyAsync(cpuTemperature -> { cpuTemperature.setTemperature(CpuSensor.getCPUtemperature()); return cpuTemperature.toBson();})
-                .thenApplyAsync(Document::toString);
+    protected DbObject prepareModel() {
+        CPUTemperature cpuTemperature = new CPUTemperature();
+        cpuTemperature.setTemperature(CpuSensor.getCPUtemperature());
+        return cpuTemperature;
     }
+
 }

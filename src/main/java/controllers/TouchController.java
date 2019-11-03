@@ -28,10 +28,9 @@ public class TouchController extends DbController {
     }
 
     @Override
-    public CompletableFuture<String> post() {
-        return CompletableFuture.supplyAsync(Touch::new)
-                .thenApplyAsync(DbObject::toBson)
-                .thenApplyAsync(Document::toString);
+    // Prepare model for post
+    protected DbObject prepareModel() {
+        return new Touch();
     }
 
     // Listen for state change, then add database entry
@@ -48,4 +47,5 @@ public class TouchController extends DbController {
             }
         );
     }
+
 }

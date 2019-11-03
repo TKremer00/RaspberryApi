@@ -7,6 +7,7 @@ import interfaces.RealTimeInterface;
 import models.CPUTemperature;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import sensor.CpuSensor;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -16,6 +17,8 @@ public abstract class DbController implements RealTimeInterface {
 
     protected String table = "";
     protected DbObject dbObject = null;
+
+    protected abstract DbObject prepareModel();
 
     // Get collection of table
     private MongoCollection<Document> collection() {
@@ -29,7 +32,11 @@ public abstract class DbController implements RealTimeInterface {
     }
 
     // Add database entry
-    public abstract CompletableFuture<String> post();
+    public CompletableFuture<String> post() {
+        return CompletableFuture.supplyAsync(this::prepareModel)
+                .thenApplyAsync(DbObject::toBson)
+                .thenApplyAsync(document -> DbObject.insertOne(collection(), document));
+    }
 
     public CompletableFuture<String> getOne(String id) {
         return CompletableFuture.supplyAsync(this::collection)

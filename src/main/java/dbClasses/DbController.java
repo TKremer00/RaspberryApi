@@ -3,8 +3,15 @@ package dbClasses;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.MongoCollection;
 import dbConfig.DBConfig;
+import handler.JsonMessageHandler;
+import models.CPUTemperature;
 import org.bson.Document;
+import org.bson.types.ObjectId;
+import sensor.CpuSensor;
+
 import java.util.concurrent.CompletableFuture;
+
+import static com.mongodb.client.model.Filters.eq;
 
 public abstract class DbController {
 
@@ -12,23 +19,36 @@ public abstract class DbController {
     protected ObjectMapper mapper = new ObjectMapper();
 
     //Get collection of table
-    protected MongoCollection<Document> collection() {
+    private MongoCollection<Document> collection() {
         return new DBConfig().collection(table);
     }
 
-    public abstract CompletableFuture<String> realTimeData();
-    public abstract CompletableFuture<String> getAll();
-    public abstract CompletableFuture<String> post();
-    public abstract CompletableFuture<String> getOne(String id);
-    public abstract CompletableFuture<String> delete(String id);
-
-    protected String insertOne (MongoCollection<Document> collection, Document doc) {
-        collection.insertOne(doc);
-        return DbObject.succesJson;
+    public CompletableFuture<String> realTimeData() {
+        return CompletableFuture.supplyAsync(() -> new JsonMessageHandler(new String[][] {{"status", "succesfull"}, {"realTimeData", Double.toString(CpuSensor.getCPUtemperature())}}).toString());
     }
 
-    protected String deleteOne (MongoCollection<Document> collection, Document doc) {
-        collection.findOneAndDelete(doc);
-        return DbObject.succesJson;
+    public CompletableFuture<String> getAll() {
+        return CompletableFuture.supplyAsync(this::collection)
+                .thenApplyAsync(coll -> CPUTemperature.toJson(coll.find()));
+    }
+
+    public CompletableFuture<String> post() {
+        return CompletableFuture.supplyAsync(CPUTemperature::getInstance)
+                .thenApplyAsync(DbObject::toBson)
+                .thenApplyAsync(document -> DbObject.insertOne(collection(), document));
+    }
+
+    public CompletableFuture<String> getOne(String id) {
+        return CompletableFuture.supplyAsync(this::collection)
+                .thenApplyAsync(coll -> coll.find( eq("_id", new ObjectId(id))).first())
+                .thenApplyAsync(Document::toJson)
+                .exceptionally(exeption -> new JsonMessageHandler(new String[][] {{"Status", "Error"}, {"Error","No record found"}}).toString());
+    }
+
+    public CompletableFuture<String> delete(String id) {
+        return CompletableFuture.supplyAsync(this::collection)
+                .thenApplyAsync(coll -> coll.find( eq("_id", new ObjectId(id))).first())
+                .thenApplyAsync(document -> DbObject.insertOne(collection(),document))
+                .exceptionally(exeption -> new JsonMessageHandler(new String[][] {{"Status", "Error"}, {"Error","No record found"}}).toString());
     }
 }

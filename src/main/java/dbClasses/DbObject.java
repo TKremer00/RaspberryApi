@@ -2,22 +2,19 @@ package dbClasses;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
 import handler.JsonMessageHandler;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import java.util.Date;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class DbObject {
 
     private static ObjectMapper mapper = new ObjectMapper();
-    public static String succesJson = new JsonMessageHandler(new String[][] {{"status", "succesfull"}}).toString();
-    public static String errorJson = new JsonMessageHandler(new String[][] {{"status", "error"} }).toString();
+    private static String succesJson = new JsonMessageHandler(new String[][] {{"status", "succesfull"}}).toString();
 
     public Document toBson() {
         Document doc = new Document();
@@ -34,5 +31,15 @@ public class DbObject {
     public static String toJson(FindIterable<Document> documents) {
         return StreamSupport.stream(documents.spliterator(), false).map(Document::toJson)
                         .collect(Collectors.joining(", ", "[", "]"));
+    }
+
+    static String insertOne (MongoCollection<Document> collection, Document doc) {
+        collection.insertOne(doc);
+        return succesJson;
+    }
+
+    static String deleteOne (MongoCollection<Document> collection, Document doc) {
+        collection.findOneAndDelete(doc);
+        return succesJson;
     }
 }

@@ -7,10 +7,7 @@ import interfaces.RealTimeInterface;
 import models.CPUTemperature;
 import org.bson.Document;
 import org.bson.types.ObjectId;
-import sensor.CpuSensor;
-
 import java.util.concurrent.CompletableFuture;
-
 import static com.mongodb.client.model.Filters.eq;
 
 public abstract class DbController implements RealTimeInterface {
@@ -35,20 +32,23 @@ public abstract class DbController implements RealTimeInterface {
     public CompletableFuture<String> post() {
         return CompletableFuture.supplyAsync(this::prepareModel)
                 .thenApplyAsync(DbObject::toBson)
-                .thenApplyAsync(document -> DbObject.insertOne(collection(), document));
+                .thenApplyAsync(Document::toString);
+                //.thenApplyAsync(document -> {collection().insertOne(document); return JsonMessageHandler.successMessage();});
     }
 
+    // Get entry by id
     public CompletableFuture<String> getOne(String id) {
         return CompletableFuture.supplyAsync(this::collection)
                 .thenApplyAsync(coll -> coll.find( eq("_id", new ObjectId(id))).first())
                 .thenApplyAsync(Document::toJson)
-                .exceptionally(exeption -> new JsonMessageHandler(new String[][] {{"Status", "Error"}, {"Error","No record found"}}).toString());
+                .exceptionally(exeption -> JsonMessageHandler.errorMessage("No record found"));
     }
 
+    // Delete entry by id
     public CompletableFuture<String> delete(String id) {
         return CompletableFuture.supplyAsync(this::collection)
                 .thenApplyAsync(coll -> coll.find( eq("_id", new ObjectId(id))).first())
-                .thenApplyAsync(document -> DbObject.deleteOne(collection(),document))
-                .exceptionally(exeption -> new JsonMessageHandler(new String[][] {{"Status", "Error"}, {"Error","No record found"}}).toString());
+                .thenApplyAsync(document -> {collection().findOneAndDelete(document);return JsonMessageHandler.successMessage();})
+                .exceptionally(exeption -> JsonMessageHandler.errorMessage("No record found"));
     }
 }

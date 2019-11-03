@@ -5,6 +5,8 @@ import dbClasses.DbObject;
 import org.bson.Document;
 import sensor.CpuSensor;
 
+import java.util.Date;
+
 public class CPUTemperature extends DbObject {
 
     private Document _id;
@@ -12,6 +14,10 @@ public class CPUTemperature extends DbObject {
     private double temperature;
 
     // GET AND SET
+    public void set_id(Document _id) {
+        this._id = _id;
+    }
+
     public Document get_id() {
         return _id;
     }

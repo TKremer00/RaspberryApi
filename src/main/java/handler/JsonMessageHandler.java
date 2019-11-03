@@ -17,6 +17,28 @@ public class JsonMessageHandler {
         this.message = arrayToMap(message);
     }
 
+    public static String successMessage() {
+        JsonMessageHandler jmh = new JsonMessageHandler();
+        try {
+            return jmh.toJson(jmh.arrayToMap(new String[][] {{"status", "succesfull"}}));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    //new String[][] {{"Status", "Error"}, {"Error","No record found"}}
+    public static String errorMessage(String error) {
+        JsonMessageHandler jmh = new JsonMessageHandler();
+        try {
+            return jmh.toJson(jmh.arrayToMap(new String[][] {{"Status", "Error"}, {"Error",error}}));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
     public String SensorMessage(String data) {
         String[][] message =  new String[][] {{"Status" ,"successfull"},{"realTimeData", data}};
         Map<String,String> messageMap = arrayToMap(message);

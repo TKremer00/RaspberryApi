@@ -3,8 +3,6 @@ package dbClasses;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import handler.JsonMessageHandler;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import java.util.Date;
@@ -13,8 +11,7 @@ import java.util.stream.StreamSupport;
 
 public class DbObject {
 
-    private static ObjectMapper mapper = new ObjectMapper();
-    private static String succesJson = new JsonMessageHandler(new String[][] {{"status", "succesfull"}}).toString();
+    private ObjectMapper mapper = new ObjectMapper();
 
     // Object to document
     public Document toBson() {
@@ -24,8 +21,8 @@ public class DbObject {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        doc.put("_id" , new ObjectId());
-        doc.put("timeStamp" , new Date());
+//        doc.put("_id" , new ObjectId());
+//        doc.put("timeStamp" , new Date());
         return doc;
     }
 
@@ -33,16 +30,5 @@ public class DbObject {
     public static String toJson(FindIterable<Document> documents) {
         return StreamSupport.stream(documents.spliterator(), false).map(Document::toJson)
                         .collect(Collectors.joining(", ", "[", "]"));
-    }
-
-    //
-    public static String insertOne(MongoCollection<Document> collection, Document doc) {
-        collection.insertOne(doc);
-        return succesJson;
-    }
-
-    static String deleteOne (MongoCollection<Document> collection, Document doc) {
-        collection.findOneAndDelete(doc);
-        return succesJson;
     }
 }

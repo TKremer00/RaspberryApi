@@ -24,6 +24,7 @@ public abstract class DbObject {
 
         try {
             Document doc = new Document(mapper.convertValue(this,new TypeReference<Map<String, Object>>() {}));
+            System.out.println("\n\n\n\n\nTo bson on : " + this.getClass().getName() + "\nValues : " + doc.toString() + "\n\n\n\n\n");
             doc.put("_id" , new ObjectId());
             doc.put("timeStamp" , new Date());
             System.out.println("\n\n\n\n\nTo bson on : " + this.getClass().getName() + "\nValues : " + doc.toString() + "\n\n\n\n\n");

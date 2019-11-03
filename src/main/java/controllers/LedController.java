@@ -8,7 +8,6 @@ import handler.JsonMessageHandler;
 import models.Led;
 import java.util.concurrent.CompletableFuture;
 
-
 public class LedController {
 
     private final static GpioController gpio = GpioFactory.getInstance();
@@ -17,17 +16,25 @@ public class LedController {
     public CompletableFuture<String> get() {
         return CompletableFuture.supplyAsync( () -> {
             led.toggle();
-            return new JsonMessageHandler(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString();
-        });
+            return new JsonMessageHandler();
+        }).thenApplyAsync(jsonMessageHandler -> jsonMessageHandler.SensorMessage(led.isLow() ? "high" : "low"));
     }
 
     public CompletableFuture<String> realTimeData() {
-        return CompletableFuture.supplyAsync(() -> new JsonMessageHandler(new String[][] {{"status", (led.isLow() ? "high" : "low")}}).toString());
+        return CompletableFuture.supplyAsync(JsonMessageHandler::new)
+                .thenApplyAsync(jsonMessageHandler -> jsonMessageHandler.SensorMessage((led.isLow() ? "high" : "low")));
     }
 
     public CompletableFuture<String> blink() {
         return CompletableFuture.supplyAsync( () -> {
             led.blink(500,1500,PinState.LOW);
+            return new JsonMessageHandler(new String[][] {{"status","successfull"}}).toString();
+        });
+    }
+
+    public CompletableFuture<String> pulse() {
+        return CompletableFuture.supplyAsync( () -> {
+            led.pulse(1500,PinState.LOW);
             return new JsonMessageHandler(new String[][] {{"status","successfull"}}).toString();
         });
     }

@@ -35,6 +35,7 @@ public class RouteHandler {
         app.get   (prefix + "/",         ctx -> ctx.result(lc.get())          );
         app.get   (prefix + "/realtime", ctx -> ctx.result(lc.realTimeData()) );
         app.get   (prefix + "/blink",    ctx -> ctx.result(lc.blink())        );
+        app.get   (prefix + "/pulse",    ctx -> ctx.result(lc.pulse())        );
     }
 
     private void cpuTemperature(String prefix) {

@@ -4,9 +4,12 @@ import com.mongodb.client.MongoCollection;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import dbClasses.DbController;
 import dbConfig.DBConfig;
+import handler.JsonMessageHandler;
 import models.Touch;
 import org.bson.Document;
+import sensor.CpuSensor;
 import sensor.TouchSensor;
+import java.util.concurrent.CompletableFuture;
 
 public class TouchController extends DbController {
 
@@ -14,6 +17,12 @@ public class TouchController extends DbController {
 
     public TouchController() {
         super.table = "touch";
+    }
+
+    @Override
+    public CompletableFuture<String> realTimeData() {
+        return CompletableFuture.supplyAsync(JsonMessageHandler::new)
+                .thenApplyAsync(jsonMessageHandler -> jsonMessageHandler.SensorMessage(Boolean.toString(TouchSensor.getState())));
     }
 
     public static void startListening() {

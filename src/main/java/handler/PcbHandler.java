@@ -6,7 +6,6 @@ class PcbHandler {
 
     private static final ArrayList<String> routes = new ArrayList<>();
 
-
     static void AddPcb(String pcb) {
         routes.add(pcb);
     }

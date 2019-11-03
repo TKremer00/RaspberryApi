@@ -1,13 +1,11 @@
 package dbClasses;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.MongoCollection;
 import dbConfig.DBConfig;
 import handler.JsonMessageHandler;
 import models.CPUTemperature;
 import org.bson.Document;
 import org.bson.types.ObjectId;
-import sensor.CpuSensor;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -16,16 +14,13 @@ import static com.mongodb.client.model.Filters.eq;
 public abstract class DbController {
 
     protected String table = "";
-    protected ObjectMapper mapper = new ObjectMapper();
 
     //Get collection of table
     private MongoCollection<Document> collection() {
         return new DBConfig().collection(table);
     }
 
-    public CompletableFuture<String> realTimeData() {
-        return CompletableFuture.supplyAsync(() -> new JsonMessageHandler(new String[][] {{"status", "succesfull"}, {"realTimeData", Double.toString(CpuSensor.getCPUtemperature())}}).toString());
-    }
+    public abstract CompletableFuture<String> realTimeData();
 
     public CompletableFuture<String> getAll() {
         return CompletableFuture.supplyAsync(this::collection)
@@ -48,7 +43,7 @@ public abstract class DbController {
     public CompletableFuture<String> delete(String id) {
         return CompletableFuture.supplyAsync(this::collection)
                 .thenApplyAsync(coll -> coll.find( eq("_id", new ObjectId(id))).first())
-                .thenApplyAsync(document -> DbObject.insertOne(collection(),document))
+                .thenApplyAsync(document -> DbObject.deleteOne(collection(),document))
                 .exceptionally(exeption -> new JsonMessageHandler(new String[][] {{"Status", "Error"}, {"Error","No record found"}}).toString());
     }
 }

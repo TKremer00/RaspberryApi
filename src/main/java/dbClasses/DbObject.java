@@ -24,12 +24,12 @@ public abstract class DbObject {
 
         try {
             Document doc = new Document(mapper.convertValue(this,new TypeReference<Map<String, Object>>() {}));
-            if(!doc.containsKey("_id")){
-                doc.put("_id" , new ObjectId());
-            }
-            if(!doc.containsKey("timeStamp")) {
-                doc.put("timeStamp" , new Date());
-            }
+//            if(!doc.containsKey("_id")){
+//                doc.put("_id" , new ObjectId());
+//            }
+//            if(!doc.containsKey("timeStamp")) {
+//                doc.put("timeStamp" , new Date());
+//            }
             System.out.println("\n\n\n\n\nTo bson on : " + this.getClass().getName() + "\nValues : " + doc.toString() + "\n\n\n\n\n");
             return doc;
         }catch (Exception e) {

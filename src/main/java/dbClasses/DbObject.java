@@ -34,7 +34,7 @@ public abstract class DbObject {
             System.out.println("\n\n\n\n\nTo bson on : " + this.getClass().getName() + "\nValues : " + doc.toString() + "\n\n\n\n\n");
             return doc;
         }catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         Document doc = new Document();
         doc.put("_id" , new ObjectId());

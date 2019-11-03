@@ -31,7 +31,7 @@ public class DbObject {
         return doc;
     }
 
-    public static String toJson2(FindIterable<Document> documents) {
+    public static String toJson(FindIterable<Document> documents) {
         return StreamSupport.stream(documents.spliterator(), false).map(Document::toJson)
                         .collect(Collectors.joining(", ", "[", "]"));
     }

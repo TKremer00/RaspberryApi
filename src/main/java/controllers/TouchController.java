@@ -34,7 +34,7 @@ public class TouchController extends DbController {
         return CompletableFuture.supplyAsync( () -> {
             try {
                 MongoCollection<Document> coll = collection();
-                return Touch.toJson(coll.find()).get();
+                return Touch.toJson(coll.find());
             }catch (Exception e) {
                 System.out.println(e.getMessage());
                 return DbObject.errorJson;

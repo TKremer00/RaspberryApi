@@ -24,7 +24,7 @@ public class CPUTemperatureController extends DbController {
     @Override
     public CompletableFuture<String> getAll() {
         return CompletableFuture.supplyAsync(this::collection)
-                .thenApplyAsync(coll -> CPUTemperature.toJson2(coll.find()));
+                .thenApplyAsync(coll -> CPUTemperature.toJson(coll.find()));
     }
 
     @Override

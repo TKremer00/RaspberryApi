@@ -3,9 +3,7 @@ package models;
 import com.mongodb.BasicDBObject;
 import dbClasses.DbObject;
 import org.bson.Document;
-import org.bson.types.ObjectId;
 import sensor.CpuSensor;
-import java.util.Date;
 
 public class CPUTemperature extends DbObject {
 

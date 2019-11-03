@@ -23,7 +23,8 @@ public abstract class DbObject {
     public Document toBson() {
 
         try {
-            Document doc = new Document(mapper.convertValue(this,new TypeReference<Map<String, Object>>() {}));
+            System.out.println(mapper.writeValueAsString(this));
+            Document doc = Document.parse(mapper.writeValueAsString(this));
 //            if(!doc.containsKey("_id")){
 //                doc.put("_id" , new ObjectId());
 //            }

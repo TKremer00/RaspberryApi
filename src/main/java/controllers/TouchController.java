@@ -5,14 +5,12 @@ import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import dbClasses.DbController;
 import dbConfig.DBConfig;
 import handler.JsonMessageHandler;
-import interfaces.SensorController;
 import models.Touch;
 import org.bson.Document;
-import sensor.CpuSensor;
 import sensor.TouchSensor;
 import java.util.concurrent.CompletableFuture;
 
-public class TouchController extends DbController implements SensorController {
+public class TouchController extends DbController {
 
     private static String tableName = "touch";
 

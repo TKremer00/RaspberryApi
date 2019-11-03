@@ -7,7 +7,7 @@ import sensor.CpuSensor;
 
 import java.util.concurrent.CompletableFuture;
 
-public class CPUTemperatureController extends DbController implements SensorController {
+public class CPUTemperatureController extends DbController {
 
     public CPUTemperatureController() {
         super.table = "cpu_temperature";

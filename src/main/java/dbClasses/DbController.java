@@ -3,6 +3,7 @@ package dbClasses;
 import com.mongodb.client.MongoCollection;
 import dbConfig.DBConfig;
 import handler.JsonMessageHandler;
+import interfaces.SensorController;
 import models.CPUTemperature;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -11,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 
 import static com.mongodb.client.model.Filters.eq;
 
-public abstract class DbController {
+public abstract class DbController implements SensorController {
 
     protected String table = "";
 

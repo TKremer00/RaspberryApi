@@ -6,6 +6,8 @@ import io.javalin.core.util.Header;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import static io.javalin.apibuilder.ApiBuilder.path;
+
 
 public class Api {
 
@@ -19,7 +21,9 @@ public class Api {
         }
 
         Javalin app = Javalin.create(JavalinConfig::enableCorsForAllOrigins).start(7000);
-        RouteHandler.Routes(app);
+//        RouteHandler.Routes(app);
+
+        app.routes(() -> path("api/v1", RouteHandler::Routes2));
 
         //Start listening for touches
         TouchController.startListening();

@@ -7,7 +7,7 @@ import static io.javalin.apibuilder.ApiBuilder.path;
 
 public class RouteHandler {
 
-    public static void Routes2() {
+    public static void Routes() {
         path( "touch", () -> PathHandler.dbControllerPaths(new TouchController()));
         path( "cpu_temperature", () -> PathHandler.dbControllerPaths(new CPUTemperatureController()));
         path( "led", () -> PathHandler.LedPaths(new LedController()));

@@ -17,7 +17,6 @@ public class TouchController extends DbController {
 
     public TouchController() {
         super.table = "touch";
-        super.dbObject = new Touch();
     }
 
     @Override
@@ -28,7 +27,8 @@ public class TouchController extends DbController {
     }
 
     @Override
-    // Prepare model for post
+    // Prepare model to add to database
+    // id and timestamp will set.
     protected DbObject prepareModel() {
         return new Touch();
     }
@@ -47,5 +47,4 @@ public class TouchController extends DbController {
             }
         );
     }
-
 }

@@ -13,7 +13,6 @@ import static com.mongodb.client.model.Filters.eq;
 public abstract class DbController implements RealTimeInterface {
 
     protected String table = "";
-    protected DbObject dbObject = null;
 
     protected abstract DbObject prepareModel();
 
@@ -32,8 +31,7 @@ public abstract class DbController implements RealTimeInterface {
     public CompletableFuture<String> post() {
         return CompletableFuture.supplyAsync(this::prepareModel)
                 .thenApplyAsync(DbObject::toBson)
-                .thenApplyAsync(Document::toString);
-                //.thenApplyAsync(document -> {collection().insertOne(document); return JsonMessageHandler.successMessage();});
+                .thenApplyAsync(document -> {collection().insertOne(document); return JsonMessageHandler.successMessage();});
     }
 
     // Get entry by id

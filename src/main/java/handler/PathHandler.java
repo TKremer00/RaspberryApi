@@ -3,7 +3,10 @@ package handler;
 import dbClasses.DbController;
 import interfaces.LedInterface;
 import interfaces.RealTimeInterface;
-import static io.javalin.apibuilder.ApiBuilder.*;
+import static io.javalin.apibuilder.ApiBuilder.get;
+import static io.javalin.apibuilder.ApiBuilder.path;
+import static io.javalin.apibuilder.ApiBuilder.post;
+import static io.javalin.apibuilder.ApiBuilder.delete;
 
 class PathHandler {
 

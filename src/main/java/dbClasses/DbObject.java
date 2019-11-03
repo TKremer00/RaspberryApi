@@ -21,8 +21,8 @@ public class DbObject {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-//        doc.put("_id" , new ObjectId());
-//        doc.put("timeStamp" , new Date());
+        doc.put("_id" , new ObjectId());
+        doc.put("timeStamp" , new Date());
         return doc;
     }
 

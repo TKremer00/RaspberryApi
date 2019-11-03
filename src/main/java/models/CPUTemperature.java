@@ -34,7 +34,6 @@ public class CPUTemperature extends DbObject {
 
     @Override
     public DbObject getInstance() {
-        System.out.println("\n\n\n\nGet Instance of CpuTemperature\n\n\n\n");
         CPUTemperature cpuTemperature = new CPUTemperature();
         cpuTemperature.setTemperature(CpuSensor.getCPUtemperature());
         return cpuTemperature;

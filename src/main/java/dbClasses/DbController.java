@@ -20,6 +20,8 @@ public abstract class DbController implements RealTimeInterface {
     private MongoCollection<Document> collection() {
         return new DBConfig().collection(table);
     }
+    
+    public abstract CompletableFuture<String> realTimeData();
 
     // Get all database records for table
     public CompletableFuture<String> getAll() {

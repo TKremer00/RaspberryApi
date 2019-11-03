@@ -1,14 +1,10 @@
 package models;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mongodb.BasicDBObject;
-import com.mongodb.client.FindIterable;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.RaspiPin;
 import dbClasses.DbObject;
 import org.bson.Document;
-
-import java.util.ArrayList;
 
 public class Touch extends DbObject {
 
@@ -37,9 +33,7 @@ public class Touch extends DbObject {
         return PIN;
     }
 
-    public static Touch getInstance() {
-        Touch touch = new Touch();
-        return touch;
+    public static DbObject getInstance() {
+        return new Touch();
     }
-
 }

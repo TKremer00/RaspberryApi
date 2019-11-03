@@ -3,6 +3,7 @@ package controllers;
 import com.mongodb.client.MongoCollection;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import dbClasses.DbController;
+import dbClasses.DbObject;
 import dbConfig.DBConfig;
 import handler.JsonMessageHandler;
 import models.Touch;
@@ -16,14 +17,17 @@ public class TouchController extends DbController {
 
     public TouchController() {
         super.table = "touch";
+        super.dbObject = new Touch();
     }
 
     @Override
+    // Get state of touch sensor
     public CompletableFuture<String> realTimeData() {
         return CompletableFuture.supplyAsync(JsonMessageHandler::new)
                 .thenApplyAsync(jsonMessageHandler -> jsonMessageHandler.SensorMessage(Boolean.toString(TouchSensor.getState())));
     }
 
+    // Listen for state change, then add database entry
     public static void startListening() {
         TouchSensor.getTouchSensor().addListener(
             (GpioPinListenerDigital) event -> {

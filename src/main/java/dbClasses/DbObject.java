@@ -14,8 +14,9 @@ import java.util.stream.StreamSupport;
 public class DbObject {
 
     private static ObjectMapper mapper = new ObjectMapper();
-    private static String succesJson = new JsonMessageHandler(new String[][] {{"status", "succesfull"}}).toString();
+    static String succesJson = new JsonMessageHandler(new String[][] {{"status", "succesfull"}}).toString();
 
+    // Object to document
     public Document toBson() {
         Document doc = new Document();
         try {
@@ -28,12 +29,14 @@ public class DbObject {
         return doc;
     }
 
+    // FindIterable<Documents> to Json string
     public static String toJson(FindIterable<Document> documents) {
         return StreamSupport.stream(documents.spliterator(), false).map(Document::toJson)
                         .collect(Collectors.joining(", ", "[", "]"));
     }
 
-    static String insertOne (MongoCollection<Document> collection, Document doc) {
+    //
+    public static String insertOne(MongoCollection<Document> collection, Document doc) {
         collection.insertOne(doc);
         return succesJson;
     }

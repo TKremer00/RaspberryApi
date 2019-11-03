@@ -2,7 +2,7 @@ package interfaces;
 
 import java.util.concurrent.CompletableFuture;
 
-public interface SensorController {
+public interface RealTimeInterface {
 
     CompletableFuture<String> realTimeData();
 

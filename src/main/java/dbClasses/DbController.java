@@ -3,7 +3,7 @@ package dbClasses;
 import com.mongodb.client.MongoCollection;
 import dbConfig.DBConfig;
 import handler.JsonMessageHandler;
-import interfaces.SensorController;
+import interfaces.RealTimeInterface;
 import models.CPUTemperature;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -12,24 +12,27 @@ import java.util.concurrent.CompletableFuture;
 
 import static com.mongodb.client.model.Filters.eq;
 
-public abstract class DbController implements SensorController {
+public abstract class DbController implements RealTimeInterface {
 
     protected String table = "";
+    protected DbObject dbObject = null;
 
-    //Get collection of table
+    // Get collection of table
     private MongoCollection<Document> collection() {
         return new DBConfig().collection(table);
     }
 
+    // Get all database records for table
     public CompletableFuture<String> getAll() {
         return CompletableFuture.supplyAsync(this::collection)
                 .thenApplyAsync(coll -> CPUTemperature.toJson(coll.find()));
     }
 
+    // Add database entry
     public CompletableFuture<String> post() {
         return CompletableFuture.supplyAsync(CPUTemperature::getInstance)
                 .thenApplyAsync(DbObject::toBson)
-                .thenApplyAsync(document -> DbObject.insertOne(collection(), document));
+                .thenApplyAsync(document -> {collection().insertOne(document); return DbObject.succesJson;});
     }
 
     public CompletableFuture<String> getOne(String id) {

@@ -1,14 +1,20 @@
 package handler;
 
 import dbClasses.DbController;
+import interfaces.LedInterface;
+import interfaces.RealTimeInterface;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 class PathHandler {
 
-    static void MakePaths(DbController dbController) {
+    private static void sensorControllerPaths(RealTimeInterface realTimeInterface) {
+        path("/realtime", () -> get(ctx -> ctx.result(realTimeInterface.realTimeData())));
+    }
+
+    static void dbControllerPaths(DbController dbController) {
         get(ctx -> ctx.result(dbController.getAll()));
 
-        path("/realtime", () -> get(ctx -> ctx.result(dbController.realTimeData())));
+        sensorControllerPaths(dbController);
 
         path(":id", () -> {
             get(ctx -> ctx.result(dbController.getOne(ctx.pathParam("id"))));
@@ -16,4 +22,10 @@ class PathHandler {
         });
     }
 
+    static void LedPaths(LedInterface ledInterface) {
+        get(ctx -> ctx.result(ledInterface.toggle()));
+        sensorControllerPaths(ledInterface);
+        path("/blink", () -> get(ctx -> ctx.result(ledInterface.blink())));
+        path("/pulse", () -> get(ctx -> ctx.result(ledInterface.pulse())));
+    }
 }

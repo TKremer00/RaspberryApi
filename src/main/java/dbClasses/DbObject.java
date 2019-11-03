@@ -1,5 +1,6 @@
 package dbClasses;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
@@ -22,7 +23,7 @@ public abstract class DbObject {
     public Document toBson() {
 
         try {
-            Document doc = new Document(mapper.convertValue(this,Map.class));
+            Document doc = new Document(mapper.convertValue(this,new TypeReference<Map<String, Object>>() {}));
             doc.put("_id" , new ObjectId());
             doc.put("timeStamp" , new Date());
             System.out.println("\n\n\n\n\nTo bson on : " + this.getClass().getName() + "\nValues : " + doc.toString() + "\n\n\n\n\n");

@@ -4,7 +4,6 @@ import com.mongodb.client.MongoCollection;
 import dbConfig.DBConfig;
 import handler.JsonMessageHandler;
 import interfaces.RealTimeInterface;
-import models.CPUTemperature;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import java.util.concurrent.CompletableFuture;
@@ -26,7 +25,7 @@ public abstract class DbController implements RealTimeInterface {
     // Get all database records for table
     public CompletableFuture<String> getAll() {
         return CompletableFuture.supplyAsync(this::collection)
-                .thenApplyAsync(coll -> CPUTemperature.toJson(coll.find()));
+                .thenApplyAsync(coll -> DbObject.toJson(coll.find()));
     }
 
     // Add database entry

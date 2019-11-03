@@ -5,6 +5,8 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import dbClasses.DbObject;
 import org.bson.Document;
+import sensor.CpuSensor;
+
 import java.util.ArrayList;
 
 public class CPUTemperature extends DbObject {
@@ -34,4 +36,9 @@ public class CPUTemperature extends DbObject {
         this.temperature = temperature;
     }
 
+    public static CPUTemperature getInstance() {
+        CPUTemperature cpuTemperature = new CPUTemperature();
+        cpuTemperature.setTemperature(CpuSensor.getCPUtemperature());
+        return cpuTemperature;
+    }
 }

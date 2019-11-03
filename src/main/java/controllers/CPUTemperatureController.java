@@ -1,8 +1,6 @@
 package controllers;
 
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import com.mongodb.client.MongoCollection;
 import dbClasses.*;
 import handler.JsonMessageHandler;
 import models.CPUTemperature;
@@ -25,60 +23,31 @@ public class CPUTemperatureController extends DbController {
 
     @Override
     public CompletableFuture<String> getAll() {
-//        return CompletableFuture.supplyAsync(() -> {
-//            try {
-//
-//                MongoCollection<Document> coll = collection();
-//                return CPUTemperature.toJson(coll.find()).get();
-//            }catch (Exception e) {
-//                System.out.println(e.getMessage());
-//                return DbObject.errorJson;
-//            }
-//        });
-
         return CompletableFuture.supplyAsync(this::collection)
                 .thenApplyAsync(coll -> CPUTemperature.toJson2(coll.find()));
     }
 
     @Override
+    // TODO : Test this methode
     public CompletableFuture<String> post() {
-        return CompletableFuture.supplyAsync( () -> {
-            CPUTemperature CPUTemperature = new CPUTemperature();
-            CPUTemperature.setTemperature(CpuSensor.getCPUtemperature());
 
-            Document doc = CPUTemperature.toBson();
-
-            MongoCollection<Document> coll = collection();
-            coll.insertOne(doc);
-
-            return DbObject.succesJson;
-        });
+        return CompletableFuture.supplyAsync(CPUTemperature::getInstance)
+                .thenApplyAsync(DbObject::toBson)
+                .thenApplyAsync(document -> super.insertOne(collection(), document));
     }
 
     @Override
+    // TODO : Test this methode
     public CompletableFuture<String> getOne(String id) {
-        return CompletableFuture.supplyAsync( () -> {
-            try {
-                MongoCollection<Document> coll = collection();
-                return Objects.requireNonNull(coll.find(eq("_id", new ObjectId(id))).first()).toJson();
-            }catch (Exception e) {
-                System.out.println(e.getMessage());
-                return DbObject.errorJson;
-            }
-        });
+        return CompletableFuture.supplyAsync(this::collection)
+                .thenApplyAsync(coll -> coll.find( eq("_id", new ObjectId(id))).first())
+                .thenApplyAsync(Document::toJson);
     }
 
     @Override
     public CompletableFuture<String> delete(String id) {
-        return CompletableFuture.supplyAsync( () -> {
-            try {
-                MongoCollection<Document> coll = collection();
-                coll.findOneAndDelete( eq("_id", new ObjectId(id)) );
-                return DbObject.succesJson;
-            }catch (Exception e) {
-                System.out.println(e.getMessage());
-                return DbObject.errorJson;
-            }
-        });
+        return CompletableFuture.supplyAsync(this::collection)
+                .thenApplyAsync(coll -> coll.find( eq("_id", new ObjectId(id))).first())
+                .thenApplyAsync(document -> super.deleteOne(collection(),document));
     }
 }

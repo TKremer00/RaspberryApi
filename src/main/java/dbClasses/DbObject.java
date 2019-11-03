@@ -31,15 +31,6 @@ public class DbObject {
         return doc;
     }
 
-    public static Future<String> toJson(FindIterable<Document> documents) {
-        ExecutorService executors = Executors.newSingleThreadExecutor();
-        Future<String> jsonString = executors.submit(
-                () -> StreamSupport.stream(documents.spliterator(), false).map(Document::toJson)
-                        .collect(Collectors.joining(", ", "[", "]")));
-        executors.shutdown();
-        return jsonString;
-    }
-
     public static String toJson2(FindIterable<Document> documents) {
         return StreamSupport.stream(documents.spliterator(), false).map(Document::toJson)
                         .collect(Collectors.joining(", ", "[", "]"));

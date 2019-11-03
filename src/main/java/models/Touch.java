@@ -37,4 +37,9 @@ public class Touch extends DbObject {
         return PIN;
     }
 
+    public static Touch getInstance() {
+        Touch touch = new Touch();
+        return touch;
+    }
+
 }

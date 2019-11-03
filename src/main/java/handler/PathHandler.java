@@ -13,7 +13,7 @@ class PathHandler {
 
     static void dbControllerPaths(DbController dbController) {
         get(ctx -> ctx.result(dbController.getAll()));
-
+        post(ctx -> ctx.result(dbController.post()));
         sensorControllerPaths(dbController);
 
         path(":id", () -> {

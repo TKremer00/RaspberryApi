@@ -1,7 +1,6 @@
 package controllers;
 
 import dbClasses.DbController;
-import dbClasses.DbObject;
 import handler.JsonMessageHandler;
 import models.CPUTemperature;
 import sensor.CpuSensor;

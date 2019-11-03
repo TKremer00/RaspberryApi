@@ -33,6 +33,7 @@ public class Touch extends DbObject {
         return PIN;
     }
 
+    @Override
     public DbObject getInstance() {
         return new Touch();
     }

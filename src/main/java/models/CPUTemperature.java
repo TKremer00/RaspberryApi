@@ -35,16 +35,6 @@ public class CPUTemperature extends DbObject {
     }
 
     @Override
-    public Document toBson() {
-        Document doc = new Document();
-        doc.put("_id" , new ObjectId());
-        doc.put("timeStamp" , new Date());
-        doc.put("temperature", this.getTemperature());
-        System.out.println("\n\n\n\n\nTo bson on : " + this.getClass().getName() + "\nValues : " + doc.toString() + "\n\n\n\n\n");
-        return doc;
-    }
-
-    @Override
     public DbObject getInstance() {
         CPUTemperature cpuTemperature = new CPUTemperature();
         cpuTemperature.setTemperature(CpuSensor.getCPUtemperature());

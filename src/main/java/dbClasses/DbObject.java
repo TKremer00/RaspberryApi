@@ -20,15 +20,20 @@ public abstract class DbObject {
 
     // Object to document
     public Document toBson() {
-        Document doc = new Document();
+
         try {
-            doc = new Document(mapper.convertValue(this,Map.class));
+            Document doc = new Document(mapper.convertValue(this,Map.class));
+            doc.put("_id" , new ObjectId());
+            doc.put("timeStamp" , new Date());
+            System.out.println("\n\n\n\n\nTo bson on : " + this.getClass().getName() + "\nValues : " + doc.toString() + "\n\n\n\n\n");
+            return doc;
         }catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
+        Document doc = new Document();
         doc.put("_id" , new ObjectId());
         doc.put("timeStamp" , new Date());
-        System.out.println("\n\n\n\n\nTo bson on : " + this.getClass().getName() + "\nValues : " + doc.toString() + "\n\n\n\n\n");
+        System.out.println("\n\n\n\n\nTo bson on : " + this.getClass().getName() + " Error \nValues : " + doc.toString() + "\n\n\n\n\n");
         return doc;
     }
 

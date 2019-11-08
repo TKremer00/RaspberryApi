@@ -19,6 +19,7 @@ public class Api {
         }
 
         Javalin app = Javalin.create(JavalinConfig::enableCorsForAllOrigins).start(7000);
+        // Register all routes with the prefix api/v1
         app.routes(() -> path("api/v1", RouteHandler::Routes));
 
         //Start listening for touches

@@ -17,6 +17,7 @@ public class JsonMessageHandler {
         this.message = arrayToMap(message);
     }
 
+    // Default success message style
     public static String successMessage() {
         JsonMessageHandler jmh = new JsonMessageHandler();
         try {
@@ -27,7 +28,7 @@ public class JsonMessageHandler {
         return "";
     }
 
-    //new String[][] {{"Status", "Error"}, {"Error","No record found"}}
+    // Default error message style
     public static String errorMessage(String error) {
         JsonMessageHandler jmh = new JsonMessageHandler();
         try {
@@ -38,7 +39,7 @@ public class JsonMessageHandler {
         return "";
     }
 
-
+    // Default sensor message style
     public String SensorMessage(String data) {
         String[][] message =  new String[][] {{"Status" ,"successfull"},{"realTimeData", data}};
         Map<String,String> messageMap = arrayToMap(message);
@@ -50,15 +51,18 @@ public class JsonMessageHandler {
         return "";
     }
 
+    // Transform array to map
     private Map<String,String> arrayToMap(String[][] array) {
         return Stream.of(array).collect(Collectors.toMap(data -> data[0], data -> data[1]));
     }
 
+    // Transform map<String,String> to a json string
     private String toJson(Map<String,String> message) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(message);
     }
 
     @Override
+    // Change default toString to the json string
     public String toString() {
         try {
             return toJson(message);

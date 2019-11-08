@@ -27,6 +27,12 @@ public class TouchController extends DbController {
     }
 
     @Override
+    public CompletableFuture<String> post() {
+        return CompletableFuture.supplyAsync(() -> new JsonMessageHandler(new String[][] {{"status", "can't post on a touch sensor"}}))
+                .thenApplyAsync(JsonMessageHandler::toString);
+    }
+
+    @Override
     // Prepare model to add to database
     // id and timestamp will set.
     protected DbObject prepareModel() {

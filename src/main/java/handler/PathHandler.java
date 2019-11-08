@@ -10,10 +10,12 @@ import static io.javalin.apibuilder.ApiBuilder.delete;
 
 class PathHandler {
 
+    // Register sensor route
     private static void sensorControllerPaths(RealTimeInterface realTimeInterface) {
         path("/realtime", () -> get(ctx -> ctx.result(realTimeInterface.realTimeData())));
     }
 
+    // Register dbController routes
     static void dbControllerPaths(DbController dbController) {
         get(ctx -> ctx.result(dbController.getAll()));
         post(ctx -> ctx.result(dbController.post()));
@@ -25,6 +27,7 @@ class PathHandler {
         });
     }
 
+    // Register led paths
     static void LedPaths(LedInterface ledInterface) {
         get(ctx -> ctx.result(ledInterface.toggle()));
         sensorControllerPaths(ledInterface);

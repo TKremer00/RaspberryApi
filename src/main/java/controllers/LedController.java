@@ -35,7 +35,7 @@ public class LedController implements LedInterface {
     public CompletableFuture<String> blink() {
         return CompletableFuture.supplyAsync( () -> {
             led.blink(500,1500,PinState.LOW);
-            return new JsonMessageHandler(new String[][] {{"status","successfull"}}).toString();
+            return JsonMessageHandler.successMessage();
         });
     }
 
@@ -44,7 +44,7 @@ public class LedController implements LedInterface {
     public CompletableFuture<String> pulse() {
         return CompletableFuture.supplyAsync( () -> {
             led.pulse(1500,PinState.LOW);
-            return new JsonMessageHandler(new String[][] {{"status","successfull"}}).toString();
+            return JsonMessageHandler.successMessage();
         });
     }
 }

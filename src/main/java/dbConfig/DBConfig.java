@@ -19,7 +19,7 @@ public class DBConfig {
     private final MongoDatabase DB = MONGO_CLIENT.getDatabase("raspberry_pi_project");
 
     //Get collection of table
-    public final MongoCollection<Document> collection(String tableName) {
+    public MongoCollection<Document> collection(String tableName) {
         return DB.getCollection(tableName);
     }
 }
